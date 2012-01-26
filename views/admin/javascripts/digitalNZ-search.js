@@ -75,16 +75,8 @@ var page_number = 0;
 		$("#digitalNZ_search_button").trigger('click');
 	});
 	
-	$('#digitalNZ_select_all').click(function(){
-		for(var i=0;i<$(".checkbox").length;i++){
-			if($(".checkbox")[i].checked == false) { $(".checkbox")[i].checked = true; }
-		}
-	});
-	
-	$('#digitalNZ_unselect_all').click(function(){
-		for(var i=0;i<$(".checkbox").length;i++){
-			if($(".checkbox")[i].checked == true) { $(".checkbox")[i].checked = false; }
-		}
+	$('#digitalNZ_select_all').live('click',function(){
+		selectAllItems();
 	});
 
 }); 
@@ -100,6 +92,9 @@ function jsonpcallback(data) {
 	var results = $(data).attr('results');	
 	
 	$("#digitalNZ_search_pane").html('');
+	
+	var select_all_button = "<input type='button' class='digitalNZ_sel_button' id='digitalNZ_select_all' value='Select All' />"
+	$("#digitalNZ_search_pane").append(select_all_button);
 	
 	var result_count = "<h2 style='text-align:right'>1-10 of " + $(data).attr('result_count') + " results</h2>";
 	$("#digitalNZ_search_pane").append(result_count);

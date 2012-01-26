@@ -1,0 +1,83 @@
+/*
+ * 
+ */
+#digitalNZ_search_pane > div 
+{
+	height: 80px;
+	padding: 10px;
+	clear: both;
+}
+
+#digitalNZ_search_pane > div > *
+{
+	float: left;
+	padding: 10px;
+}
+
+.result_title_description
+{
+	width: 560px;
+}
+
+.digitalNZ_thumbnail
+{
+	width: 90px;
+}
+
+#backtop a 
+{
+	position: fixed;
+	bottom: 0px;
+	right: 50px;
+	color: #ffffff;
+	z-index: 1000;
+	background: #5cb3ff;
+	padding: 10px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+#backtop a:hover
+{
+	background: #56a5ec;
+	color: #ffffff;
+}
+
+.usage_right_icon
+{
+	position:relative;
+	display:block;	
+}
+	
+.usage_right_icon:hover
+{
+	background:none;
+	text-decoration:none;
+}
+
+.usage_right_icon span
+{
+	display:none;
+	text-align:center;
+}
+
+.usage_right_icon:hover span
+{
+	display:inline;
+	position:absolute;
+	width:120px;
+	color:black;
+	background:#fff380;
+	z-index:1000;
+	border-radius:5px;
+}
+
+#digitalNZ_select_all {
+	text-align: left;
+	float: left;
+	padding-top: 10px;
+}
+

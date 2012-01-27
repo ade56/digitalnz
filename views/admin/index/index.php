@@ -281,11 +281,6 @@
 		<div class="input">
 			<input type="button" class='digitalNZ_nav_button' id="digitalNZ_prev_results" value="Previous" />
 			<input type="button" class='digitalNZ_nav_button' id="digitalNZ_next_results" value="Next" />
-<<<<<<< HEAD
-			<input type="button" class="digitalNZ_sel_button" id="digitalNZ_select_all" value="Select All" />
-			<input type="button" class="digitalNZ_sel_button" id="digitalNZ_unselect_all" value="Unselect All" />
-=======
->>>>>>> 8cc8190df409e6626929df14d90ad7262014f357
             <input type="submit" class="submit" name="submit" id="digitalnz-import" value="Import Item(s)" />
         </div>
 		<input type='hidden' name='num_results' id='num_results' value="<?php echo get_option('digitalnz_per_page'); ?>" />

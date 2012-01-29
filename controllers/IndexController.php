@@ -41,12 +41,14 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 			$this->_helper->redirector->goto('index', 'index', null, array('message' => 'error'));
 		}
 		
+		$collection_id = '';
+		
 		// New Collection Created and Retrieved from DB so Items can be Added Based on ID 
-		if($collection == "exist_collection")
+		if($collection == "exist_collection" && $_POST['digitalNZ_collection_select'] != 'Please select a collection')
 		{
 			$collection_id = $_POST['digitalNZ_collection_select'];		
 		} 
-		else
+		else if($collection == "new_collection" && $_POST['new_collection']!= 'Please input a name')
 		{
 			$collection = insert_collection(array('name'=> $_POST['new_collection'], 'public'=>true, 'description'=>' '));				
 			$collectionTable = get_db()->getTable('Collection');

@@ -1,8 +1,11 @@
 $(document).ready(function() {
 	page_number = 0;
+	var old_text = '';
 	
 	/** User Click to Retrieve Digital New Zealand Archives*/
 	$("#digitalNZ_search_button").click(function() {
+		if(old_text != $('#digitalNZ_search_text').attr('value')) { page_number = 0; }
+	
 		/** Digital New Zealand API Key Required for Querying */
 		var api_key = document.getElementById('api_key').value;
 		
@@ -58,6 +61,8 @@ $(document).ready(function() {
 		
 		/** JSON retrieved from Digital New Zealand. Jsonpcallback function called upon 'success'*/
 		$.getJSON(url);
+		
+		old_text = $('#digitalNZ_search_text').attr('value');
     });
 	
 	$('.digitalNZ_nav_button').hide();

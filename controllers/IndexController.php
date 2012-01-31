@@ -39,7 +39,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 		
 		foreach($overdueItems as $item) {
 			//insert delete item function here for success	
-			$this->_createItem($item->item_id, ,$item->collection_id);
+			//$this->_createItem($item->item_id, ,$item->collection_id);
 		}
 	}
 	

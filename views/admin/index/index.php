@@ -258,6 +258,7 @@
 		<div class="field">
 			<label for="digitalNZ_collection_list">Collection Option</label>
 			<div class="inputs">
+				<input type="radio" name="digitalNZ_collection" value="no_collection" checked onclick="new_collection.style.display='none';digitalNZ_collection_select.style.display='none'"/>No Collection&nbsp&nbsp&nbsp
 				<input type="radio" name="digitalNZ_collection" value="new_collection" onclick="new_collection.style.display='block';digitalNZ_collection_select.style.display='none'" />Create a new collection&nbsp&nbsp&nbsp
 				<input type="radio" name="digitalNZ_collection" value="exist_collection" onclick="digitalNZ_collection_select.style.display='block';new_collection.style.display='none'" />Add to an existing collection
 				<input type="text" name="new_collection" id="new_collection" size="30" style="display:none;color:#808080" value="Please input a name" onfocus="if(this.value=='Please input a name')this.value=''" onblur="if(this.value=='')this.value='Please input a name'" />

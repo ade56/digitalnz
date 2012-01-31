@@ -1,8 +1,11 @@
 $(document).ready(function() {
-var page_number = 0;
+	page_number = 0;
+	var old_text = '';
 	
 	/** User Click to Retrieve Digital New Zealand Archives*/
 	$("#digitalNZ_search_button").click(function() {
+		if(old_text != $('#digitalNZ_search_text').attr('value')) { page_number = 0; }
+	
 		/** Digital New Zealand API Key Required for Querying */
 		var api_key = document.getElementById('api_key').value;
 		
@@ -58,6 +61,8 @@ var page_number = 0;
 		
 		/** JSON retrieved from Digital New Zealand. Jsonpcallback function called upon 'success'*/
 		$.getJSON(url);
+		
+		old_text = $('#digitalNZ_search_text').attr('value');
     });
 	
 	$('.digitalNZ_nav_button').hide();
@@ -65,13 +70,13 @@ var page_number = 0;
 	
 	/** Next Five Results Retrieved Upon 'Next' click */	
 	$('#digitalNZ_next_results').click(function() {
-	    page_number = page_number + 5; 
+	    page_number = page_number + parseInt($('#num_results').attr('value')); 
 	    $("#digitalNZ_search_button").trigger('click');
 	});
 	
 	/** Previous Five Results Retrieved Upon 'prev' Click */
 	$('#digitalNZ_prev_results').click(function(){
-		if(page_number > 0)  page_number -= 5; 
+		if(page_number > 0)  page_number -= parseInt($('#num_results').attr('value')); 
 		$("#digitalNZ_search_button").trigger('click');
 	});
 
@@ -92,7 +97,9 @@ function jsonpcallback(data) {
 	var select_all_button = "<input type='button' class='digitalNZ_sel_button' id='digitalNZ_select_all' onclick='selectAllItems()' value='Select All' />"
 	$("#digitalNZ_search_pane").append(select_all_button);
 	
-	var result_count = "<h2 style='text-align:right'>1-10 of " + $(data).attr('result_count') + " results</h2>";
+	var start_number = page_number + 1;
+	var end_number = page_number + parseInt($('#num_results').attr('value'));
+	var result_count = "<h2 style='text-align:right'>" + start_number + "-" + end_number + " of " + $(data).attr('result_count') + " results</h2>";
 	$("#digitalNZ_search_pane").append(result_count);
 	
 	$.each(results, function(key, value){
@@ -122,6 +129,6 @@ function jsonpcallback(data) {
 	});	
 	
 	/** If Item Count Exceeds Five than Next/Prev Buttons are Required for Navigation */
-	if($('.digitalNZ_search_item').length >= 5) $('.digitalNZ_nav_button').show();
+	if(parseInt($('#num_results').attr('value')) < parseInt($(data).attr('result_count'))) $('.digitalNZ_nav_button').show();
 	$('.digitalNZ_sel_button').show();
 }

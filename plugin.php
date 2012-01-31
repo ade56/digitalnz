@@ -44,10 +44,10 @@ function digitalNZ_install()
 	
 	insert_element_set($element_name, $elements);
 	
-	// create dnz imports table
     $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_imports` (
        `id` int(10) unsigned NOT NULL auto_increment,
        `collection_id` int(10) unsigned NOT NULL,
+	   `added` DATE NOT NULL,
        PRIMARY KEY  (`id`)
        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
@@ -55,8 +55,9 @@ function digitalNZ_install()
 	
 	 $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_items` (
 	  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	  `import_id` int(10) unsigned NOT NULL,
 	  `item_id` int(10) unsigned DEFAULT NULL,
+	  `collection_id` int(10) unsigned NOT NULL,
+	  `added` DATE NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	  

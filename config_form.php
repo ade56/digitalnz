@@ -67,3 +67,10 @@
 	?>
 	</div>
 </div>
+
+<div class="field">
+	<label for="">DigitalNZ Terms of Service: </label>
+	<div class="inputs">
+		<p class="explanation"><a href="/omeka/admin/plugins/config?name=Geolocation" class="configure-button button">Update</a></p>
+	</div>
+</div>

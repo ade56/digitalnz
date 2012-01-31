@@ -78,9 +78,9 @@ var page_number = 0;
 }); 
 
 function selectAllItems(){
- $(".checkbox").each(function() {
-  if(!$(this).is(':checked')) $(this).attr('checked', true); 
- });
+ 	$(".checkbox").each(function() {
+  		if(!$(this).is(':checked')) $(this).attr('checked', true); 
+ 	});
 }
 
 /** Named callback function from the ajax call when search clicked */

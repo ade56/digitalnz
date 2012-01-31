@@ -30,6 +30,19 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 		$this->view->assign('collection_array', $collection_array);
 	}
 	
+	/**
+	 *
+	 */
+	public function refreshAction()
+	{	
+		$overdueItems = get_db()->getTable('DigitalNZItem')->findOverdue();
+		
+		foreach($overdueItems as $item) {
+			//insert delete item function here for success	
+			$this->_createItem($item->item_id, ,$item->collection_id);
+		}
+	}
+	
 	public function addAction()
     {
 		$results_check = $_POST['results_check_box'];
@@ -55,15 +68,16 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 			$collection_id = $collectionTable->fetchObject($select)->id;		
 		}	
 		
-		//
+		// 
 		$import = new DigitalNZImport();
 		$import->collection_id = $collection_id;
+		$import->added = date("Y-m-d");
 		$import->save();	
 				
 		// Each Item Selected By the User is Comitted to an Omeka Item 
 		foreach($results_check as $result)
 		{
-			$this->_createItem($result, $collection_id, $import->id);
+			$this->_createItem($result, $collection_id);
 		}
 		
 		// Item's Successfully Added and User is Redirected with Success Message 
@@ -73,7 +87,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	/**
 	 *  @param $result - DNZ Item Specified by User, $collection_id - 
 	 */
-	public function _createItem($result, $collection_id, $import_id)
+	public function _createItem($result, $collection_id)
 	{
 		// JSON Web Service Request Made to DNZ */
 		$url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $result . '"&api_key=6y98irEtPSynyEbqTPfw';
@@ -94,8 +108,9 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 		}
 		
 		$importItem = new DigitalNZItem();
-		$importItem->import_id = $import_id;
 		$importItem->item_id = $item->id;
+		$importItem->collection_id = $collection_id;
+		$importItem->added = date("Y-m-d");
 		$importItem->save();
 		release_object($importItem);
 			

@@ -2,8 +2,13 @@
 
 class DigitalNZItemTable extends Omeka_Db_Table
 {
-	public function findByImportId($importId)
-	{
-		
-	}
+	public function findOverdue()
+    {
+        //$select = $this->getSelect();
+        //$select->where("import_id = $importId");
+        //return $this->fetchObjects($select);
+		$select = $this->getSelect();
+	    $select->where('added <= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)');
+	    return $this->fetchObjects($select);
+    }
 }

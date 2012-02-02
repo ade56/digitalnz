@@ -107,7 +107,7 @@ function jsonpcallback(data) {
 		/** Copy Right Color Scheme */
 		var color_code;
 		
-		if(value.object_copyright == "No known copyright restrictions"){ color_code = 'tag_green.png'; }
+		if(value.object_copyright == "No known copyright restrictions" || value.object_copyright == "Unknown"){ color_code = 'tag_green.png'; }
 	
 		if(value.object_copyright == "Some rights reserved"){ color_code = 'tag_orange.png'; }
 		

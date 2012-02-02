@@ -5,6 +5,9 @@
  * @package -- ..
  */
 
+define('MAX_RESULTS_PER_PAGE', 10);
+define('DEFAULT_RESULTS_PER_PAGE', 5);
+
 // add plugin hooks
 add_plugin_hook('install', 'digitalNZ_install');
 add_plugin_hook('uninstall', 'digitalNZ_uninstall');
@@ -61,7 +64,10 @@ function digitalNZ_install()
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	  
-	$db->query($sql);	
+	$db->query($sql);
+
+	set_option('digitalnz_per_page', DEFAULT_RESULTS_PER_PAGE);
+	set_option('use_dublin_core', '1');
 }
 
 /**
@@ -71,6 +77,10 @@ function digitalNZ_install()
  */
 function digitalNZ_uninstall()
 {
+	delete_option('digitalnz_per_page');
+	delete_option('digitalnz_api_key');
+	delete_option('use_dublin_core');
+	
 	$db = get_db();
 
 	// Delete the "digitalnz" element set if it exists.
@@ -93,18 +103,21 @@ function digitalNZ_uninstall()
  */
 function digitalNZ_config($post)
 {
+	$perPage = (int)$_POST['per_page'];
+	if($perPage <= 0) {
+		$perPage = DEFAULT_RESULTS_PER_PAGE;
+	} else if($perPage > MAX_RESULTS_PER_PAGE) {
+		$perPage = MAX_RESULTS_PER_PAGE;
+	}
+
 	//Dnz Results per page option
-	set_option('digitalnz_per_page', $_POST['per_page']); 
+	set_option('digitalnz_per_page', $perPage); 
 	
 	//User API Key for Digital NZ
 	set_option('digitalnz_api_key', $_POST['api_key']);
 	
 	// Dublin Core or Digital New Zealand Metadata Selection 
-	if($post['dublin_core']){
-		set_option('use_dublin_core', 1);
-	} else {
-		set_option('use_dublin_core', 0);
-	}
+	set_option('use_dublin_core', $_POST['use_dublin_core']);
 }
  
 /**
@@ -112,8 +125,7 @@ function digitalNZ_config($post)
  */
 function digitalNZ_config_form()
 {
-    $html = include 'config_form.php';
-	echo $html;	
+    include 'config_form.php';
 }
 
 /** 

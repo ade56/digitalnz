@@ -5,21 +5,21 @@
 <h1>Digital New Zealand Import</h1>
 
 <div id='primary'>
-	<h2> Search Digital New Zealand Content </h2>
-	<p> Search DNZ content by specifying a search query below. A list of digital new zealand items will appear once the
+	<h2> Search DigitalNZ Content </h2>
+	<p> Search DigitalNZ content by specifying a search query below. A list of DigitalNZ items will appear once the
 		 'search' button is clicked. Selecting the items and check-box and clicking 'import' will save the item to Omeka.</p>
 		
 		<?php
 			/** Error Message Displaying Success or Error */
 		 	$message = $this->escape($this->message);
 		
-			if($message == 'success') echo '<div class="success">Item(s) Successfully Added..</div>';
+			if($message == 'success') echo '<div class="success">The item was successfully added!</div>';
 			
-			if($message == 'error') echo '<div class="error">Please use search function and select which items you require..</div>';
+			if($message == 'error') echo '<div class="error">Please use the search function to search for DigitalNZ items.</div>';
 			
-			if($message == 'error_key') echo '<div class="error">Digital New Zealand API Key Missing.. Visit 
+			if($message == 'error_key') echo '<div class="error">Invalid Digital New Zealand API Key! Please visit 
 											  <a href="/./omeka/admin/plugins/config?name=DigitalNZ">configuration</a>
-											   to input</div>';
+											   to input a valid key.</div>';
 		?>
 	
 	 <form action="<?php echo html_escape(uri(array('action'=>'add'))); ?>" method="post" accept-charset="utf-8">
@@ -28,7 +28,7 @@
 			<div class="inputs">         
 				<?php echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput')); ?>
 				<input type='button' value='Search' id='digitalNZ_search_button'/>
-				<p class="explanation">Input text above and select 'search'..</p>  		
+				<p class="explanation">Input text above and select 'search'.</p>  		
 			</div>
 		</div>
 		<div class="field">
@@ -43,7 +43,7 @@
 					<option value="Data">Data</option>
 					<option value="Interactive">Interactive</option>
 				</select>
-				<p class="explanation">filter by archive format..</p> 
+				<p class="explanation">Filter by archive format.</p> 
 			</div>
 		</div>
 	
@@ -61,7 +61,7 @@
 					<option value="Book">Book</option>
 					<option value="Reference">Reference</option>
 				</select>
-				<p class="explanation">filter by type information..</p>
+				<p class="explanation">Filter by type information.</p>
 			</div>
 		</div>
 
@@ -76,7 +76,7 @@
 					<option value="Use commercially">Use commercially</option>
 					<option value="Unknown">No known copyright restrictions</option>	
 				</select>
-				<p class="explanation">filter by copy-right information..</p> 
+				<p class="explanation">Filter by copyright information.</p> 
 			</div>
 		</div>
 
@@ -216,7 +216,7 @@
 					<option value="Wikimedia Commons">Wikimedia Commons</option>
 					<option value="mychillybin">mychillybin</option></select>
 				</select>
-				<p class="explanation">filter by content provider information..</p>
+				<p class="explanation">Filter by content provider information.</p>
 			</div>
 		</div>
 
@@ -241,7 +241,7 @@
 					<option value="Wanganui">Whanganui</option>
 					<option value="Gisborne">Gisborne</option>
 				</select>
-				<p class="explanation">filter by location information..</p> 
+				<p class="explanation">Filter by location information.</p> 
 			</div>
 		</div>
 
@@ -250,8 +250,8 @@
 			<div class="inputs">
 				<input type="text" class="textinput" name="date_from" id="date_from" size="5" /> --- 
 				<input type="text" class="textinput" name="date_to" id="date_to" size="5" />
-				<p class="explanation">Enter a 'year' to filter by date.. e.g. 1900 </br>
-					 				   Leaving one field blank will retrieve all results before or after the year provided</p> 
+				<p class="explanation">Enter a 'year' to filter by date (e.g., 1900). <br />
+					 				   Leaving one field blank will retrieve all results before or after the year provided.</p> 
 			</div>
 		</div>
 		
@@ -271,7 +271,7 @@
 						}				
 					?>
 				</select>
-				<p class="explanation"> Optional - Select an Existing Collection or Create new by Specifying title in text-box..</p> 
+				<p class="explanation">Select an existing collection or create a new one by specifying the title in the text-box.</p> 
 			</div>
 		</div>
 

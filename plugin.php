@@ -57,6 +57,8 @@ function digitalNZ_install()
 	  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	  `item_id` int(10) unsigned DEFAULT NULL,
 	  `collection_id` int(10) unsigned NOT NULL,
+	  `dnz_id` int(10) unsigned NOT NULL,
+	  `is_dublin` TINYINT(1) unsigned NOT NULL,
 	  `added` DATE NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";

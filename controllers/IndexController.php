@@ -4,6 +4,9 @@ require_once 'DigitalNZItem.php';
 
 class DigitalNZ_IndexController extends Omeka_Controller_Action
 {
+	
+	const PROCESS_CLASS_IMPORT = 'DigitalNZ_ImportProcess';
+	
     /**
      * Front Digital New Zealand page.
      */
@@ -35,11 +38,32 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	 */
 	public function refreshAction()
 	{	
+		$args = array();
+		
+		$process = ProcessDispatcher::startProcess(self::PROCESS_CLASS_IMPORT, null, $args);
+		
 		$overdueItems = get_db()->getTable('DigitalNZItem')->findOverdue();
 		
-		foreach($overdueItems as $item) {
-			//insert delete item function here for success	
-			//$this->_createItem($item->item_id, ,$item->collection_id);
+		foreach($overdueItems as $overdue) {
+			$item = get_item_by_id($overdue->item_id);
+
+			// JSON Web Service Request Made to DNZ */
+			$url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $overdue->dnz_id. '"&api_key=6y98irEtPSynyEbqTPfw';
+
+			$dnzItem = json_decode(file_get_contents($url), true); 
+			$dnzItem = $dnzItem['results'][0];
+
+			// User Selection to Use Dublin-Core MetaData Standard */
+			if ($overdue->is_dublin)
+			{
+				$item = update_item($this->item, array('public' => true), array('Dublin Core'=> $this->_convertDnz($dnzItem)));
+			} 
+			else 
+			{ 
+				$item = update_item($this->item, array('public' => true), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
+			}
+			
+			// UPDATE ITEM DATE!!!!!!!!!!!
 		}
 	}
 	
@@ -96,22 +120,26 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 							
 		$dnzItem = json_decode(file_get_contents($url), true); 
 		$dnzItem = $dnzItem['results'][0];
-
+		
+		$importItem = new DigitalNZItem();
+			
 		// User Selection to Use Dublin-Core MetaData Standard */
 		if (get_option("use_dublin_core"))
 		{
 			$item = insert_item(array('public' => true, 'collection_id' => $collection_id), 
                 				array('Dublin Core' => $this->_convertDnz($dnzItem))); 
+			$importItem->is_dublin = 1;
 		} 
 		else 
 		{ 
 			$item = insert_item(array('public' => true, 'collection_id' => $collection_id), 
                 				array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
+			$importItem->is_dublin = 0;
 		}
 		
-		$importItem = new DigitalNZItem();
 		$importItem->item_id = $item->id;
 		$importItem->collection_id = $collection_id;
+		$importItem->dnz_id = $dnzItem['id'];
 		$importItem->added = date("Y-m-d");
 		$importItem->save();
 		release_object($importItem);

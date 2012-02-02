@@ -40,7 +40,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	{	
 		$args = array();
 		
-		$process = ProcessDispatcher::startProcess(self::PROCESS_CLASS_IMPORT, null, $args);
+		//$process = ProcessDispatcher::startProcess(self::PROCESS_CLASS_IMPORT, null, $args);
 		
 		$overdueItems = get_db()->getTable('DigitalNZItem')->findOverdue();
 		

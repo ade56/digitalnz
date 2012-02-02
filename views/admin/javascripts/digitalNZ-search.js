@@ -1,19 +1,16 @@
 $(document).ready(function() {
 	page_number = 0;
-	var old_text = '';
+	var old_search_text = '';
+	total_results = 0;
 	
 	/** User Click to Retrieve Digital New Zealand Archives*/
 	$("#digitalNZ_search_button").click(function() {
-		if(old_text != $('#digitalNZ_search_text').attr('value')) { page_number = 0; }
-	
+		
 		/** Digital New Zealand API Key Required for Querying */
 		var api_key = document.getElementById('api_key').value;
 		
 		/** Number of Results Required - Higher = slow response - Lower = fast response - */
 		var num_results = document.getElementById('num_results').value;
-		
-		/** Primarily used by 'prev' and 'next' feature to retrieve next set of results */
-		var start = page_number;
 				
 		/** User Input Text */
 		var search_text = $('#digitalNZ_search_text').attr('value');
@@ -50,6 +47,11 @@ $(document).ready(function() {
 		if(from_date == '' && to_date != '') { search_text += '%20AND%20year:[1500 TO ' + to_date + ']'; }
 		if(from_date != '' && to_date == '') { search_text += '%20AND%20year:[' + from_date + ' TO 2020]'; }
 		if(from_date != '' && to_date != '') { search_text += '%20AND%20year:[' + from_date + ' TO ' + to_date + ']'; }
+		
+		if(old_search_text != search_text) { page_number = 0; }
+		
+		/** Primarily used by 'prev' and 'next' feature to retrieve next set of results */
+		var start = page_number;
 			
 		/** URL Request to Digital New Zealand */
 		var url = 'http://api.digitalnz.org/records/v2.json'
@@ -62,7 +64,7 @@ $(document).ready(function() {
 		/** JSON retrieved from Digital New Zealand. Jsonpcallback function called upon 'success'*/
 		$.getJSON(url);
 		
-		old_text = $('#digitalNZ_search_text').attr('value');
+		old_search_text = search_text;
     });
 	
 	$('.digitalNZ_nav_button').hide();
@@ -70,7 +72,7 @@ $(document).ready(function() {
 	
 	/** Next Five Results Retrieved Upon 'Next' click */	
 	$('#digitalNZ_next_results').click(function() {
-	    page_number = page_number + parseInt($('#num_results').attr('value')); 
+	    if((page_number + parseInt($('#num_results').attr('value'))) < total_results) page_number = page_number + parseInt($('#num_results').attr('value')); 
 	    $("#digitalNZ_search_button").trigger('click');
 	});
 	
@@ -99,8 +101,10 @@ function jsonpcallback(data) {
 	
 	var start_number = page_number + 1;
 	var end_number = page_number + parseInt($('#num_results').attr('value'));
+	if(end_number > $(data).attr('result_count')) { end_number = $(data).attr('result_count'); }
 	var result_count = "<h2 style='text-align:right'>" + start_number + "-" + end_number + " of " + $(data).attr('result_count') + " results</h2>";
 	$("#digitalNZ_search_pane").append(result_count);
+	total_results = $(data).attr('result_count');
 	
 	$.each(results, function(key, value){
 		
@@ -109,9 +113,11 @@ function jsonpcallback(data) {
 		
 		if(value.object_copyright == "No known copyright restrictions" || value.object_copyright == "Unknown"){ color_code = 'tag_green.png'; }
 	
-		if(value.object_copyright == "Some rights reserved"){ color_code = 'tag_orange.png'; }
+		else if(value.object_copyright == "Some rights reserved"){ color_code = 'tag_orange.png'; }
 		
-		if(value.object_copyright == "All rights reserved"){ color_code = 'tag_red.png'; }
+		else if(value.object_copyright == "All rights reserved"){ color_code = 'tag_red.png'; }
+		
+		else { color_code = 'tag_green.png'; }
 		
 		if(value.identifier == '') { value.identifier = value.display_url }
 			
@@ -129,6 +135,7 @@ function jsonpcallback(data) {
 	});	
 	
 	/** If Item Count Exceeds Five than Next/Prev Buttons are Required for Navigation */
-	if(parseInt($('#num_results').attr('value')) < parseInt($(data).attr('result_count'))) $('.digitalNZ_nav_button').show();
+	if(parseInt($('#num_results').attr('value')) < $(data).attr('result_count')) $('.digitalNZ_nav_button').show();
+	else $('.digitalNZ_nav_button').hide();
 	$('.digitalNZ_sel_button').show();
 }

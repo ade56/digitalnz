@@ -14,7 +14,6 @@ add_plugin_hook('uninstall', 'digitalNZ_uninstall');
 add_plugin_hook('config', 'digitalNZ_config');
 add_plugin_hook('config_form', 'digitalNZ_config_form');
 add_plugin_hook('admin_theme_header', 'digitalNZ_theme_header');
-add_plugin_hook('public_append_to_items_show', 'digitalNZ_public_item');
 
 // add plugin filters
 add_filter('admin_navigation_main', 'digitalNZ_admin_nav');
@@ -47,15 +46,6 @@ function digitalNZ_install()
 	
 	insert_element_set($element_name, $elements);
 	
-    $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_imports` (
-       `id` int(10) unsigned NOT NULL auto_increment,
-       `collection_id` int(10) unsigned NOT NULL,
-	   `added` DATE NOT NULL,
-       PRIMARY KEY  (`id`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-
-	$db->query($sql);
-	
 	 $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_items` (
 	  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	  `item_id` int(10) unsigned DEFAULT NULL,
@@ -79,10 +69,6 @@ function digitalNZ_install()
  */
 function digitalNZ_uninstall()
 {
-	delete_option('digitalnz_per_page');
-	delete_option('digitalnz_api_key');
-	delete_option('use_dublin_core');
-	
 	$db = get_db();
 
 	// Delete the "digitalnz" element set if it exists.
@@ -92,10 +78,12 @@ function digitalNZ_uninstall()
 	}
 	
 	// DROP all tables created during installation.
-	$sql = "DROP TABLE IF EXISTS `{$db->prefix}digital_nz_imports`";
-	$db->query($sql);
 	$sql = "DROP TABLE IF EXISTS `{$db->prefix}digital_nz_items`";
 	$db->query($sql);
+	
+	delete_option('digitalnz_per_page');
+	delete_option('digitalnz_api_key');
+	delete_option('use_dublin_core');
 }
 
 /**
@@ -120,6 +108,9 @@ function digitalNZ_config($post)
 	
 	// Dublin Core or Digital New Zealand Metadata Selection 
 	set_option('use_dublin_core', $_POST['use_dublin_core']);
+	
+	// 
+	set_option('terms_of_use', $_POST['terms_of_use']);
 }
  
 /**
@@ -170,11 +161,6 @@ function digitalNZ_metadata_form()
     ob_end_clean();
 
 	return $ht;
-}
-
-function digitalNZ_public_item()
-{
-	echo '<h1> TESTING FOR SHOWING </h1>';
 }
 
 

@@ -17,9 +17,9 @@
 			
 			if($message == 'error') echo '<div class="error">Please use the search function to search for DigitalNZ items.</div>';
 			
-			if($message == 'error_key') echo '<div class="error">Invalid Digital New Zealand API Key! Please visit 
-											  <a href="/./omeka/admin/plugins/config?name=DigitalNZ">configuration</a>
-											   to input a valid key.</div>';
+			if($message == 'error_key') echo '<div class="error">Invalid Configuration. 
+											  <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
+											   to configure the "Digital New Zealand" plugin.</div>';
 		?>
 	
 	 <form action="<?php echo html_escape(uri(array('action'=>'add'))); ?>" method="post" accept-charset="utf-8">

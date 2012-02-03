@@ -1,11 +1,8 @@
 <?php
-require_once 'DigitalNZImport.php';
 require_once 'DigitalNZItem.php';
 
 class DigitalNZ_IndexController extends Omeka_Controller_Action
 {
-	
-	const PROCESS_CLASS_IMPORT = 'DigitalNZ_ImportProcess';
 	
     /**
      * Front Digital New Zealand page.
@@ -14,7 +11,9 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	{
 		$message = $this->_getParam('message');
 		
-		if(!get_option('digitalnz_api_key')) $message = 'error_key';
+		if(!get_option('digitalnz_api_key') || !get_option('terms_of_use')){
+			$message = 'error_key';
+		} 
 		
 		if($message) $this->view->assign('message', $message);	
 
@@ -38,33 +37,28 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	 */
 	public function refreshAction()
 	{	
-		$args = array();
-		
-		//$process = ProcessDispatcher::startProcess(self::PROCESS_CLASS_IMPORT, null, $args);
-		
 		$overdueItems = get_db()->getTable('DigitalNZItem')->findOverdue();
 		
 		foreach($overdueItems as $overdue) {
 			$item = get_item_by_id($overdue->item_id);
 
 			// JSON Web Service Request Made to DNZ */
-			$url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $overdue->dnz_id. '"&api_key=6y98irEtPSynyEbqTPfw';
-
-			$dnzItem = json_decode(file_get_contents($url), true); 
-			$dnzItem = $dnzItem['results'][0];
+			$dnzItem = $this->_searchForItem($overdue->dnz_id);
 
 			// User Selection to Use Dublin-Core MetaData Standard */
 			if ($overdue->is_dublin)
 			{
-				$item = update_item($this->item, array('public' => true), array('Dublin Core'=> $this->_convertDnz($dnzItem)));
+				update_item($item, array('public' => true), array('Dublin Core'=> $this->_convertDnz($dnzItem)));
 			} 
 			else 
 			{ 
-				$item = update_item($this->item, array('public' => true), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
+				update_item($item, array('public' => true), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
 			}
 			
-			// UPDATE ITEM DATE!!!!!!!!!!!
+			//To Do.. Update Date Added
 		}
+		
+		$this->view->assign('overdue_items', $overdueItems);
 	}
 	
 	public function addAction()
@@ -92,13 +86,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	       	$select = $collectionTable->getSelect();
 	       	$select->where('name = ?', $_POST['new_collection']);
 			$collection_id = $collectionTable->fetchObject($select)->id;		
-		}	
-		
-		// 
-		$import = new DigitalNZImport();
-		$import->collection_id = $collection_id;
-		$import->added = date("Y-m-d");
-		$import->save();	
+		}		
 				
 		// Each Item Selected By the User is Comitted to an Omeka Item 
 		foreach($results_check as $result)
@@ -115,11 +103,8 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	 */
 	public function _createItem($result, $collection_id)
 	{
-		// JSON Web Service Request Made to DNZ */
-		$url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $result . '"&api_key=6y98irEtPSynyEbqTPfw';
-							
-		$dnzItem = json_decode(file_get_contents($url), true); 
-		$dnzItem = $dnzItem['results'][0];
+		// JSON Web Service Request Made to DNZ */ $result
+		$dnzItem = $this->_searchForItem($result);
 		
 		$importItem = new DigitalNZItem();
 			
@@ -127,14 +112,14 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 		if (get_option("use_dublin_core"))
 		{
 			$item = insert_item(array('public' => true, 'collection_id' => $collection_id), 
-                				array('Dublin Core' => $this->_convertDnz($dnzItem))); 
+                					   array('Dublin Core' => $this->_convertDnz($dnzItem))); 
 			$importItem->is_dublin = 1;
 		} 
 		else 
 		{ 
 			$item = insert_item(array('public' => true, 'collection_id' => $collection_id), 
-                				array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
-			$importItem->is_dublin = 0;
+                					   array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
+			$importItem->is_dublin = 0; //Remove this and make default entry 0 in DB?
 		}
 		
 		$importItem->item_id = $item->id;
@@ -146,15 +131,27 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 			
 		// File Content is Inserted *
 		try {
-			$url = $dnzItem['large_thumbnail_url'];	
+			$url = $dnzItem['object_url'];	
 			
-			if(!$url) $url = $dnzItem['thumbnail_url'];
+			if(!$url) $url = $dnzItem['large_thumbnail_url'];
 			
 			$file = insert_files_for_item($item,  'Url', array($url));
 			release_object($file);
 		} catch (Exception $e) {
 			
 		}	
+	}
+	
+	/** 
+	 *
+	 */
+	public function _searchForItem($dnzId)
+	{
+		$url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $dnzId . '"&api_key=6y98irEtPSynyEbqTPfw';
+
+		$dnzItem = json_decode(file_get_contents($url), true); 
+		
+	 	return $dnzItem['results'][0];
 	}
 	
 	/**

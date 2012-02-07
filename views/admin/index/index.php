@@ -31,6 +31,7 @@
 					if($this->escape($this->message) == 'error_key') echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
 					else echo "<input type='button' value='Search' id='digitalNZ_search_button' />";
 				?>
+				<a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
 				<p class="explanation">Input text above and select 'search'.</p>  		
 			</div>
 		</div>

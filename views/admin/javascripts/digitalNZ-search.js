@@ -143,6 +143,5 @@ function jsonpcallback(data) {
 		/** If Item Count Exceeds Five than Next/Prev Buttons are Required for Navigation */
 		if(parseInt($('#num_results').attr('value')) < $(data).attr('result_count')) $('.digitalNZ_nav_button').show();
 		else $('.digitalNZ_nav_button').hide();
-		$('.digitalNZ_sel_button').show();
 	}
 }

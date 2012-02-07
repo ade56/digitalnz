@@ -27,7 +27,10 @@
 			<label for="digitalNZ_search_text">Text Input </label>   
 			<div class="inputs">         
 				<?php echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput')); ?>
-				<input type='button' value='Search' id='digitalNZ_search_button'/>
+				<?php
+					if($this->escape($this->message) == 'error_key') echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
+					else echo "<input type='button' value='Search' id='digitalNZ_search_button' />";
+				?>
 				<p class="explanation">Input text above and select 'search'.</p>  		
 			</div>
 		</div>
@@ -41,7 +44,7 @@
 					<option value="Audio">Audio</option>
 					<option value="Videos">Videos</option>
 					<option value="Data">Data</option>
-					<option value="Interactive">Interactive</option>
+					<option value="Interactives">Interactive</option>
 				</select>
 				<p class="explanation">Filter by archive format.</p> 
 			</div>
@@ -99,7 +102,6 @@
 					<option value="BRANZ">BRANZ</option>
 					<option value="Beacon Pathway Ltd">Beacon Pathway Ltd</option>
 					<option value="British Council NZ">British Council NZ</option>
-					<option value="Bronwyn Holloway-Smith">Bronwyn Holloway-Smith</option>
 					<option value="Buller, Grey and Westland District Libraries">Buller, Grey and Westland District Libraries</option>
 					<option value="Carterton District Library">Carterton District Library</option>
 					<option value="Centre for Housing Research Aotearoa New Zealand">Centre for Housing Research Aotearoa New Zealand</option>
@@ -110,7 +112,6 @@
 					<option value="Department of Conservation">Department of Conservation</option>
 					<option value="Department of Conservation Te Papa Atawhai">Department of Conservation Te Papa Atawhai</option>
 					<option value="Department of Corrections">Department of Corrections</option>
-					<option value="Department of Internal Affairs">Department of Internal Affairs</option>
 					<option value="Department of Labour">Department of Labour</option>
 					<option value="DigitalNZ">DigitalNZ</option>
 					<option value="Down to the Wire">Down to the Wire</option>
@@ -124,7 +125,9 @@
 					<option value="International Children's Digital Library">International Children's Digital Library</option>
 					<option value="Kawerau District Library">Kawerau District Library</option>
 					<option value="Kete Central Hawke's Bay">Kete Central Hawke's Bay</option>
+					<option value="Kete Hauraki Coromandel">Kete Hauraki Coromandel</option>
 					<option value="Kete Horowhenua">Kete Horowhenua</option>
+					<option value="Kete King Country">Kete King Country</option>
 					<option value="Kete Marlborough">Kete Marlborough</option>
 					<option value="Kete Masterton">Kete Masterton</option>
 					<option value="Kete Selwyn">Kete Selwyn</option>
@@ -146,7 +149,6 @@
 					<option value="Ministry of Fisheries Te Tautiaki i nga tini a Tangaroa">Ministry of Fisheries Te Tautiaki i nga tini a Tangaroa</option>
 					<option value="Ministry of Health">Ministry of Health</option>
 					<option value="Ministry of Tourism Te Manatū Tāpoi">Ministry of Tourism Te Manatū Tāpoi</option>
-					<option value="Ministry of Transport">Ministry of Transport</option>
 					<option value="Mix &amp; Mash 2011">Mix &amp; Mash 2011</option>
 					<option value="Motu Economic and Public Policy Research">Motu Economic and Public Policy Research</option>
 					<option value="Museum Victoria">Museum Victoria</option>
@@ -201,9 +203,9 @@
 					<option value="University of Otago - National School of Surveying">University of Otago - National School of Surveying</option>
 					<option value="University of Otago Library">University of Otago Library</option>
 					<option value="University of Waikato">University of Waikato</option>
-					<option value="V&amp;A">V&amp;A</option>
 					<option value="V.C. Browne &amp; Son">V.C. Browne &amp; Son</option>
 					<option value="Victoria University of Wellington">Victoria University of Wellington</option>
+					<option value="Victoria and Albert Museum">Victoria and Albert Museum</option>
 					<option value="Waimakariri District Libraries">Waimakariri District Libraries</option>
 					<option value="Waimate Museum">Waimate Museum</option>
 					<option value="Wairarapa Archive">Wairarapa Archive</option>
@@ -214,7 +216,8 @@
 					<option value="Whanganui Regional Museum">Whanganui Regional Museum</option>
 					<option value="Whitireia Community Polytechnic">Whitireia Community Polytechnic</option>
 					<option value="Wikimedia Commons">Wikimedia Commons</option>
-					<option value="mychillybin">mychillybin</option></select>
+					<option value="mychillybin">mychillybin</option>
+					<option value="www.whenmyhomeshook.co.nz">www.whenmyhomeshook.co.nz</option>
 				</select>
 				<p class="explanation">Filter by content provider information.</p>
 			</div>

@@ -92,50 +92,57 @@ function selectAllItems(){
 
 /** Named callback function from the ajax call when search clicked */
 function jsonpcallback(data) { 
-	var results = $(data).attr('results');	
-	
-	$("#digitalNZ_search_pane").html('');
-	
-	var select_all_button = "<input type='button' class='digitalNZ_sel_button' id='digitalNZ_select_all' onclick='selectAllItems()' value='Select All' />"
-	$("#digitalNZ_search_pane").append(select_all_button);
-	
-	var start_number = page_number + 1;
-	var end_number = page_number + parseInt($('#num_results').attr('value'));
-	if(end_number > $(data).attr('result_count')) { end_number = $(data).attr('result_count'); }
-	var result_count = "<h2 style='text-align:right'>" + start_number + "-" + end_number + " of " + $(data).attr('result_count') + " results</h2>";
-	$("#digitalNZ_search_pane").append(result_count);
-	total_results = $(data).attr('result_count');
-	
-	$.each(results, function(key, value){
+	if($(data).attr('result_count') == 0) {
+		$("#digitalNZ_search_pane").html('');
+		$('.digitalNZ_nav_button').hide();
+		var results = "<h2>NO RESULTS</h2><h4>Sorry, your search returned no results. Please try again for different keywords.</h4>"
+		$("#digitalNZ_search_pane").append(results);
+	} else {
+		var results = $(data).attr('results');	
 		
-		/** Copy Right Color Scheme */
-		var color_code;
+		$("#digitalNZ_search_pane").html('');
 		
-		if(value.object_copyright == "No known copyright restrictions" || value.object_copyright == "Unknown"){ color_code = 'tag_green.png'; }
-	
-		else if(value.object_copyright == "Some rights reserved"){ color_code = 'tag_orange.png'; }
+		var select_all_button = "<input type='button' class='digitalNZ_sel_button' id='digitalNZ_select_all' onclick='selectAllItems()' value='Select All' />"
+		$("#digitalNZ_search_pane").append(select_all_button);
 		
-		else if(value.object_copyright == "All rights reserved"){ color_code = 'tag_red.png'; }
+		var start_number = page_number + 1;
+		var end_number = page_number + parseInt($('#num_results').attr('value'));
+		if(end_number > $(data).attr('result_count')) { end_number = $(data).attr('result_count'); }
+		var result_count = "<h2 style='text-align:right'>" + start_number + "-" + end_number + " of " + $(data).attr('result_count') + " results</h2>";
+		$("#digitalNZ_search_pane").append(result_count);
+		total_results = $(data).attr('result_count');
 		
-		else { color_code = 'tag_green.png'; }
-		
-		if(value.identifier == '') { value.identifier = value.display_url }
+		$.each(results, function(key, value){
 			
-		var html = "<div class='digitalNZ_search_item'>" +
-						"<input type='checkbox' class='checkbox' name='results_check_box[]' value='" + value.id + "'/>" +
-		 				"<img src='" + value.thumbnail_url + "' class='digitalNZ_thumbnail'/>" + 
-						"<div class='result_title_description'>" +
-							"<h2><a href='" + value.identifier + "' target='_blank'>" + value.title + "</a></h2>" +
-		 					"<a>" + value.description + "</a>" +
-						"</div>" + 
-						"<div class='usage_right_icon'><img src='/./omeka/plugins/DigitalNZ/Images/" + color_code +"' />" + "<span>" + value.object_copyright +"</span></div>" + 
-					" </div>"; 
+			/** Copy Right Color Scheme */
+			var color_code;
+			
+			if(value.object_copyright == "No known copyright restrictions" || value.object_copyright == "Unknown"){ color_code = 'tag_green.png'; }
 		
-		$("#digitalNZ_search_pane").append(html);			
-	});	
-	
-	/** If Item Count Exceeds Five than Next/Prev Buttons are Required for Navigation */
-	if(parseInt($('#num_results').attr('value')) < $(data).attr('result_count')) $('.digitalNZ_nav_button').show();
-	else $('.digitalNZ_nav_button').hide();
-	$('.digitalNZ_sel_button').show();
+			else if(value.object_copyright == "Some rights reserved"){ color_code = 'tag_orange.png'; }
+			
+			else if(value.object_copyright == "All rights reserved"){ color_code = 'tag_red.png'; }
+			
+			else { color_code = 'tag_green.png'; }
+			
+			if(value.identifier == '') { value.identifier = value.display_url }
+				
+			var html = "<div class='digitalNZ_search_item'>" +
+							"<input type='checkbox' class='checkbox' name='results_check_box[]' value='" + value.id + "'/>" +
+							"<img src='" + value.thumbnail_url + "' class='digitalNZ_thumbnail'/>" + 
+							"<div class='result_title_description'>" +
+								"<h2><a href='" + value.identifier + "' target='_blank'>" + value.title + "</a></h2>" +
+								"<a>" + value.description + "</a>" +
+							"</div>" + 
+							"<div class='usage_right_icon'><img src='/./omeka/plugins/DigitalNZ/Images/" + color_code +"' />" + "<span>" + value.object_copyright +"</span></div>" + 
+						" </div>"; 
+			
+			$("#digitalNZ_search_pane").append(html);			
+		});	
+		
+		/** If Item Count Exceeds Five than Next/Prev Buttons are Required for Navigation */
+		if(parseInt($('#num_results').attr('value')) < $(data).attr('result_count')) $('.digitalNZ_nav_button').show();
+		else $('.digitalNZ_nav_button').hide();
+		$('.digitalNZ_sel_button').show();
+	}
 }

@@ -84,6 +84,7 @@ function digitalNZ_uninstall()
 	delete_option('digitalnz_per_page');
 	delete_option('digitalnz_api_key');
 	delete_option('use_dublin_core');
+	delete_option('terms_of_use');
 }
 
 /**

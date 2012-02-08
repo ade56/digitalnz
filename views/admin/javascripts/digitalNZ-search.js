@@ -123,6 +123,8 @@ function jsonpcallback(data) {
 			
 			else if(value.object_copyright == "All rights reserved"){ color_code = 'tag_red.png'; }
 			
+			else if(value.object_copyright == "Crown copyright"){ color_code = 'tag_gray.png'; }
+			
 			else { color_code = 'tag_green.png'; }
 			
 			if(value.identifier == '') { value.identifier = value.display_url }

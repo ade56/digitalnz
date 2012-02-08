@@ -10,4 +10,14 @@ class DigitalNZItem extends Omeka_Record
 	public $dnz_id;
 	public $is_dublin;
 	public $added;
+        
+        /**
+         *
+         */
+        public function UpdateDateAdded()
+        {
+             $this->added = date("Y-m-d");  
+             $this->save();
+        }
+        
 }

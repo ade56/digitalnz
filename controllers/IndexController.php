@@ -75,7 +75,8 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	 */
 	public function refreshAction()
 	{	
-		$overdueItems = get_db()->getTable('DigitalNZItem')->findOverdue();
+		$itemTable = get_db()->getTable('DigitalNZItem');
+		$overdueItems = $itemTable->findOverdue();
 		
 		foreach($overdueItems as $overdue) {
 			
@@ -95,11 +96,13 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 			else 
 			{ 
 				update_item($item, array('public' => true), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
-			}
-			
-			//To Do.. Update Date Added
+			}   
+                        
+                       $itemTable->find($overdue->id)->UpdateDateAdded();
+                        
+                        //$test->UpdateDateAdded();
 		}
-		
+	
 		$this->view->assign('overdue_items', $overdueItems);
 	}
 	

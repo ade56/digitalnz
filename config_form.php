@@ -30,11 +30,12 @@
 	<div class="inputs">
 		<div style='float:left;'>
 			<?php echo __v()->formCheckbox('terms_of_use', true, array('checked'=>(boolean)get_option('terms_of_use'))); ?>
-			I accept Digital New Zealand's <a href="http://www.digitalnz.org/terms-of-use">Terms of Use Agreement</a>	
+			I accept Digital New Zealand's <a href="http://www.digitalnz.org/terms-of-use" target="_blank">Terms of Use Agreement</a>	
 		</div>
 		<div style='text-align:right;'>
 			<a href="/omeka/admin/digital-nz/index/refresh/" class="configure-button button">Update</a>
-			<p class="explanation" style="color:red">Note: When imported items are older than 30 days click 'Update' to refresh content</p> 
+			<p class="explanation">In order to use DigitalNZ search services, you must first agree to the Terms.</p>
+			<p class="explanation" style="color:red">Note: When imported items are older than 30 days click 'Update' to refresh the content.</p> 
 		</div>
 	</div>
 </div>

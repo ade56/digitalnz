@@ -26,10 +26,14 @@
 		<div class="field">
 			<label for="digitalNZ_search_text">Text Input </label>   
 			<div class="inputs">         
-				<?php echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput')); ?>
-				<?php
-					if($this->escape($this->message) == 'error_key') echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
-					else echo "<input type='button' value='Search' id='digitalNZ_search_button' />";
+				<?php 
+                                    echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput')); 
+
+                                    if ($this->escape($this->message) == 'error_key') {
+                                        echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
+                                    } else {
+                                        echo "<input type='button' value='Search' id='digitalNZ_search_button' />";
+                                    }
 				?>
 				<a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
 				<p class="explanation">Input text above and select 'search'.</p>  		
@@ -286,8 +290,8 @@
 		<div class="input">
 			<input type="button" class='digitalNZ_nav_button' id="digitalNZ_prev_results" value="Previous" />
 			<input type="button" class='digitalNZ_nav_button' id="digitalNZ_next_results" value="Next" />
-            <input type="submit" class="submit" name="submit" id="digitalnz-import" value="Import Item(s)" />
-        </div>
+                        <input type="submit" class="submit" name="submit" id="digitalnz-import" value="Import Item(s)" />
+                </div>
 		<input type='hidden' name='num_results' id='num_results' value="<?php echo get_option('digitalnz_per_page'); ?>" />
 		<input type='hidden' name='api_key' id='api_key' value="<?php echo get_option('digitalnz_api_key'); ?>" />
 	</form>

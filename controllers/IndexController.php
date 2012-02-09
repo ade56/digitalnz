@@ -28,7 +28,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
         }		
         $this->view->assign('collection_array', $collection_array);
     }
-	
+    
     public function addAction()
     {
         $results_check = $_POST['results_check_box'];
@@ -60,7 +60,10 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 	// Item's Successfully Added and User is Redirected with Success Message 
 	$this->_helper->redirector->goto('index', 'index', null, array('message' => 'success'));
     }
-	
+    
+    /**
+     *  Updates items older than 30 days to comply with Digital NZ terms of use
+     */
     public function refreshAction()
     {	
         $itemTable = get_db()->getTable('DigitalNZItem');
@@ -77,7 +80,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
                 
             // User Selection to Use Dublin-Core MetaData Standard */
             if ($overdue->is_dublin) {
-                update_item($item, array('public' => true), array('Dublin Core'=> $this->_convertDnz($dnzItem)));	
+                update_item($item, array('public' => true), array('Dublin Core'=> $this->_formatDC($dnzItem)));	
             } else { 
                 update_item($item, array('public' => true), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
             }   
@@ -100,7 +103,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 			
         // User Selection to Use Dublin-Core MetaData Standard */
         if (get_option("use_dublin_core")) {
-            $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Dublin Core' => $this->_convertDnz($dnzItem))); 
+            $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Dublin Core' => $this->_formatDC($dnzItem))); 
             $importItem->is_dublin = 1;
         } else { 
             $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
@@ -130,7 +133,9 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     }
 	
     /** 
+     *  Returns formatted Digital New Zealand JSON Item 
      *
+     *  @param ID of DNZ item
      */
     public function _searchForItem($dnzId)
     {
@@ -142,44 +147,28 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     }
 	
     /**
-     *  DigitalNZ MetaData Mapping to Dublin-Core Standard -- Requires More fields..?
+     *  DigitalNZ item formatted according to Dublin-Core standard 
      *
      *  @param array 
      */
-    public function _convertDnz($dnzItem)
+    public function _formatDC($dnzItem)
     {
         $dublinCore = array(
-            'Title' => array(
-                array('text' => $dnzItem['title'], 'html' => false)
-            ),
-			'Description' => array(
-                array('text' => $dnzItem['description'], 'html' => false)
-            ),
-			'Creator' => array(
-                array('text' => $dnzItem['author'], 'html' => false)
-            ),
-			'Source' => array(
-                array('text' => $dnzItem['content_provider'], 'html' => false)
-            ),
-			'Publisher' => array(
-                array('text' => $dnzItem['publisher'], 'html' => false)
-            ),
-			'Date' => array(
-                array('text' => $dnzItem['date'], 'html' => false)
-            ),
-			'Rights' => array(
-                array('text' => $dnzItem['object_copyright'], 'html' => false)
-            ),
-			'Format' => array(
-                array('text' => $dnzItem['dctype'], 'html' => false)
-            )
+            'Title'       => array(array('text' => $dnzItem['title'], 'html' => false)),
+            'Description' => array(array('text' => $dnzItem['description'], 'html' => false)),
+            'Creator'     => array(array('text' => $dnzItem['author'], 'html' => false)),
+            'Source'      => array(array('text' => $dnzItem['content_provider'], 'html' => false)),
+            'Publisher'   => array(array('text' => $dnzItem['publisher'], 'html' => false)),
+            'Date'        => array(array('text' => $dnzItem['date'], 'html' => false)),
+            'Rights'      => array(array('text' => $dnzItem['object_copyright'], 'html' => false)),
+            'Format'      => array(array('text' => $dnzItem['dctype'], 'html' => false))
         );
 		
         return $dublinCore;
     }
 	
     /**
-     * DigitalNZ MetaData Formatted as Omeka Element Array Before Insertion
+     * DigitalNZ MetaData standard retained. Formatted as ElementTexts Array
      *
      * @param array
      */

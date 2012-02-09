@@ -20,33 +20,30 @@ add_filter('admin_navigation_main', 'digitalNZ_admin_nav');
 
 /**
  * Install the plugin.
- * 
- * @return void
  */
 function digitalNZ_install() 
 {
-	$element_name = 'Digital New Zealand';
+    $element_name = 'Digital New Zealand';
 	
-	$db = get_db();
+    $db = get_db();
 	
-	// Don't install if an element set by the name 'Digital New Zealand' already exists.
-	if ($db->getTable('ElementSet')->findByName($element_name)) {
-	     throw new Exception('An element set by the name "' . $element_name . '" already exists. You must delete that element set to install this plugin.');
-	}
+    // Don't install if an element set by the name 'Digital New Zealand' already exists.
+    if ($db->getTable('ElementSet')->findByName($element_name)) {
+        throw new Exception('An element set by the name "' . $element_name . '" already exists. You must delete that element set to install this plugin.');
+    }
 	
-	//Fields Retrieved from Digital New Zealand 					
-	$dnzFields = json_decode(file_get_contents('http://api.digitalnz.org/records/v2.json?api_key=6y98irEtPSynyEbqTPfw&search_text=&num_results=1'), true);
+    //Fields Retrieved from Digital New Zealand 					
+    $dnzFields = json_decode(file_get_contents('http://api.digitalnz.org/records/v2.json?api_key=6y98irEtPSynyEbqTPfw&search_text=&num_results=1'), true);
 	
-	//Elements Set to Match those from DNZ Web Service
-	$elements = array();	
-	foreach($dnzFields['results'][0] as $field_name => $field_value)
-	{
-		$elements[] = array('name' => $field_name, 'data_type' => 'Tiny Text');
-	}	
+    //Elements Set to Match those from DNZ Web Service
+    $elements = array();	
+    foreach ($dnzFields['results'][0] as $field_name => $field_value) {
+	$elements[] = array('name' => $field_name, 'data_type' => 'Tiny Text');
+    }	
 	
-	insert_element_set($element_name, $elements);
+    insert_element_set($element_name, $elements);
 	
-	 $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_items` (
+    $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_items` (
 	  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	  `item_id` int(10) unsigned DEFAULT NULL,
 	  `collection_id` int(10) unsigned NOT NULL,
@@ -56,10 +53,11 @@ function digitalNZ_install()
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	  
-	$db->query($sql);
-
-	set_option('digitalnz_per_page', DEFAULT_RESULTS_PER_PAGE);
-	set_option('use_dublin_core', '1');
+    $db->query($sql);
+        
+    set_option('digitalnz_per_page', DEFAULT_RESULTS_PER_PAGE);
+	
+    set_option('use_dublin_core', '1');
 }
 
 /**
@@ -69,22 +67,23 @@ function digitalNZ_install()
  */
 function digitalNZ_uninstall()
 {
-	$db = get_db();
+    $db = get_db();
 
-	// Delete the "digitalnz" element set if it exists.
- 	$elementSet = $db->getTable('ElementSet')->findByName('Digital New Zealand');
-	if ($elementSet) {
-	     $elementSet->delete();
-	}
+    // Delete the "digitalnz" element set if it exists.
+    $elementSet = $db->getTable('ElementSet')->findByName('Digital New Zealand');
+    if ($elementSet) {
+        $elementSet->delete();
+    }
 	
-	// DROP all tables created during installation.
-	$sql = "DROP TABLE IF EXISTS `{$db->prefix}digital_nz_items`";
-	$db->query($sql);
-	
-	delete_option('digitalnz_per_page');
-	delete_option('digitalnz_api_key');
-	delete_option('use_dublin_core');
-	delete_option('terms_of_use');
+    // DROP all tables created during installation.
+    $sql = "DROP TABLE IF EXISTS `{$db->prefix}digital_nz_items`";
+    $db->query($sql);
+    
+    // Delete all options created
+    delete_option('digitalnz_per_page');
+    delete_option('digitalnz_api_key');
+    delete_option('use_dublin_core');
+    delete_option('terms_of_use');
 }
 
 /**
@@ -94,24 +93,24 @@ function digitalNZ_uninstall()
  */
 function digitalNZ_config($post)
 {
-	$perPage = (int)$_POST['per_page'];
-	if($perPage <= 0) {
-		$perPage = DEFAULT_RESULTS_PER_PAGE;
-	} else if($perPage > MAX_RESULTS_PER_PAGE) {
-		$perPage = MAX_RESULTS_PER_PAGE;
-	}
+    $perPage = (int)$_POST['per_page'];
+    if ($perPage <= 0) {
+        $perPage = DEFAULT_RESULTS_PER_PAGE;
+    } else if ($perPage > MAX_RESULTS_PER_PAGE) {
+        $perPage = MAX_RESULTS_PER_PAGE;
+    }
 
-	//Dnz Results per page option
-	set_option('digitalnz_per_page', $perPage); 
+    //Dnz Results per page option
+    set_option('digitalnz_per_page', $perPage); 
 	
-	//User API Key for Digital NZ
-	set_option('digitalnz_api_key', $_POST['api_key']);
+    //User API Key for Digital NZ
+    set_option('digitalnz_api_key', $_POST['api_key']);
 	
-	// Dublin Core or Digital New Zealand Metadata Selection 
-	set_option('use_dublin_core', $_POST['use_dublin_core']);
+    // Dublin Core or Digital New Zealand Metadata Selection 
+    set_option('use_dublin_core', $_POST['use_dublin_core']);
 	
-	// 
-	set_option('terms_of_use', $_POST['terms_of_use']);
+    // Compliance with DigitalNew Zealand Terms of Use Agreement
+    set_option('terms_of_use', $_POST['terms_of_use']);
 }
  
 /**
@@ -129,11 +128,11 @@ function digitalNZ_config_form()
  */
 function digitalNZ_theme_header($request)
 {
-	if ($request->getModuleName() == 'digital-nz') { 		
+    if ($request->getModuleName() == 'digital-nz') { 		
         echo '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-		      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
+              <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
         queue_js('digitalNZ-search');
-		queue_css('digitalNZ-style');
+        queue_css('digitalNZ-style');
     }
 }
 /**
@@ -143,25 +142,10 @@ function digitalNZ_theme_header($request)
  */
 function digitalNZ_admin_nav($navArray)
 {
-	//ACL list needed to limit permissions?? -- To-Do..
-     $navArray['Digital NZ Import'] = uri(array('module'=>'digital-nz', 'controller'=>'index', 'action'=>'index'), 'default');
+    //ACL list needed to limit permissions?? -- To-Do..
+    $navArray['Digital NZ Import'] = uri(array('module'=>'digital-nz', 'controller'=>'index', 'action'=>'index'), 'default');
 
     return $navArray;
-}
-
-/** 
- * Digital New Zealand Metadata HTML form for add/edit 
- *
- * @return object
- */
-function digitalNZ_metadata_form()
-{
-	ob_start();
-
-	$ht .= ob_get_contents();
-    ob_end_clean();
-
-	return $ht;
 }
 
 

@@ -18,7 +18,7 @@
                                           <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
                                           to configure the "Digital New Zealand" plugin.</div>';
     ?>
-	
+
     <form action="<?php echo html_escape(uri(array('action'=>'add'))); ?>" method="post" accept-charset="utf-8">
         <div class="field">
             <label for="digitalNZ_search_text">Text Input</label>   

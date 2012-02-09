@@ -27,7 +27,7 @@
                 <?php
                     if($this->escape($this->message) == 'error_key') echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
                     else echo "<input type='button' value='Search' id='digitalNZ_search_button' />";
-				?>
+                ?>
                 <a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
                 <p class="explanation">Input text above and select 'search'.</p>  		
             </div>
@@ -251,7 +251,7 @@
             <label for="digitalNZ_date_filter">Date Range</label>
             <div class="inputs">
                 <input type="text" class="textinput" id="date_from" size="5" /> --- 
-				<input type="text" class="textinput" id="date_to" size="5" />
+                <input type="text" class="textinput" id="date_to" size="5" />
                 <p class="explanation">Enter a 'year' to filter by date (e.g., 1900).<br />
                                         Leaving one field blank will retrieve all results before or after the year provided.</p> 
             </div>

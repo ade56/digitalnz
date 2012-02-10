@@ -85,36 +85,6 @@
             </div>
         </div>
 
-		<div class="field">
-			<label for="digitalNZ_date_filter">Date Range</label>
-			<div class="inputs">
-				<input type="text" class="textinput" name="date_from" id="date_from" size="5" /> --- 
-				<input type="text" class="textinput" name="date_to" id="date_to" size="5" />
-				<p class="explanation">Enter a 'year' to filter by date (e.g., 1900). <br />
-					 				   Leaving one field blank will retrieve all results before or after the year provided.</p> 
-			</div>
-		</div>
-		
-		<div class="field">
-			<label for="digitalNZ_collection_list">Collection Option</label>
-			<div class="inputs">
-				<input type="radio" name="digitalNZ_collection" value="no_collection" checked onclick="new_collection.style.display='none';digitalNZ_collection_select.style.display='none'"/>No Collection&nbsp&nbsp&nbsp
-				<input type="radio" name="digitalNZ_collection" value="new_collection" onclick="new_collection.style.display='block';digitalNZ_collection_select.style.display='none'" />Create a new collection&nbsp&nbsp&nbsp
-				<input type="radio" name="digitalNZ_collection" value="exist_collection" onclick="digitalNZ_collection_select.style.display='block';new_collection.style.display='none'" />Add to an existing collection
-				<input type="text" name="new_collection" id="new_collection" size="30" style="display:none;color:#808080" value="Please input a name" onfocus="if(this.value=='Please input a name')this.value=''" onblur="if(this.value=='')this.value='Please input a name'" />
-				<select class='digitalNZ_search_filter' name='digitalNZ_collection_select' id='digitalNZ_collection_select' style="display:none">
-					<option value="">Please select a collection</option>
-					<?php
-						foreach($this->collection_array as $key => $value)
-						{
-							echo '<option value="' . $key . '">' . $value .'</option>';
-						}				
-					?>
-				</select>
-				<p class="explanation">Select an existing collection or create a new one by specifying the title. </p> 
-			</div>
-		</div>
-
         <div class="field">
             <label for="digitalNZ_content_provider_filter">Content Provider</label>
             <div class="inputs">

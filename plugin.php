@@ -149,4 +149,15 @@ function digitalNZ_admin_nav($navArray)
     return $navArray;
 }
 
+/**
+ * Defines the ACL for the reports controllers.
+ *
+ * @param Omeka_Acl $acl Access control list
+ */
+function csv_import_define_acl($acl)
+{
+    // only allow super users and admins to import csv files
+    $acl->loadResourceList(array('CsvImport_Index' => array('index')));
+}
+
 

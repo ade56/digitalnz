@@ -7,7 +7,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     {
         $message = $this->_getParam('message');
 		
-	if (!get_option('digitalnz_api_key') || !get_option('terms_of_use')) {
+	if (!get_option('digitalnz_api_key') || !get_option('digitalnz_terms_of_use')) {
             $message = 'error_key';
         } 
 		
@@ -102,7 +102,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
         $importItem = new DigitalNZItem();
 			
         // User Selection to Use Dublin-Core MetaData Standard */
-        if (get_option("use_dublin_core")) {
+        if (get_option("digitalnz_use_dublin_core")) {
             $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Dublin Core' => $this->_formatDC($dnzItem))); 
             $importItem->is_dublin = 1;
         } else { 

@@ -19,7 +19,7 @@
 <div class="field">
     <label for="dublin_core">Metadata Standard:</label>
     <div class="inputs">
-        <?php echo __v()->formCheckbox('use_dublin_core', true, array('checked'=>(boolean)get_option('use_dublin_core'))); ?>
+        <?php echo __v()->formCheckbox('digitalnz_use_dublin_core', true, array('checked'=>(boolean)get_option('digitalnz_use_dublin_core'))); ?>
         Use Dublin Core Metadata Element Set.
         <p class="explanation" style="color:red">Warning: Converting to Dublin Core metadata standard may result in lost information.</p>
     </div>
@@ -29,7 +29,7 @@
     <label for="">DigitalNZ Terms of Service: </label>
     <div class="inputs">
         <div style='float:left;'>
-            <?php echo __v()->formCheckbox('terms_of_use', true, array('checked'=>(boolean)get_option('terms_of_use'))); ?>
+            <?php echo __v()->formCheckbox('digitalnz_terms_of_use', true, array('checked'=>(boolean)get_option('digitalnz_terms_of_use'))); ?>
             I accept Digital New Zealand's <a href="http://www.digitalnz.org/terms-of-use" target="_blank">Terms of Use Agreement</a>	
         </div>
         <div style='text-align:right;'>

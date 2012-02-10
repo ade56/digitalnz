@@ -82,7 +82,9 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
             if ($overdue->is_dublin) {
                 update_item($item, array('public' => true), array('Dublin Core'=> $this->_formatDC($dnzItem)));	
             } else { 
-                update_item($item, array('public' => true), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
+                update_item($item, array('public' => true), 
+                                   array('Digital New Zealand' => $this->_formatDnz($dnzItem), 
+                                         'Dublin Core' => array('Title'=> array(array('text' => $dnzItem['title'], 'html' => false)))));
             }   
                         
             $itemTable->find($overdue->id)->UpdateDateAdded();
@@ -106,8 +108,9 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
             $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Dublin Core' => $this->_formatDC($dnzItem))); 
             $importItem->is_dublin = 1;
         } else { 
-            $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Digital New Zealand' => $this->_formatDnz($dnzItem)));
-            $importItem->is_dublin = 0; //Remove this and make default entry 0 in DB?
+            $item = insert_item(array('public' => true, 'collection_id' => $collection_id), 
+                                array('Digital New Zealand' => $this->_formatDnz($dnzItem), 
+                                      'Dublin Core' => array('Title'=> array(array('text' => $dnzItem['title'], 'html' => false)))));
         }
 		
         $importItem->item_id = $item->id;
@@ -139,7 +142,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
      */
     public function _searchForItem($dnzId)
     {
-        $url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $dnzId . '"&api_key=6y98irEtPSynyEbqTPfw';
+        $url = 'http://api.digitalnz.org/records/v2.json?search_text=id:"' . $dnzId . '"&api_key=' . get_option('digitalnz_api_key');
 
         $dnzResult = json_decode(file_get_contents($url), true); 
 		

@@ -48,7 +48,7 @@ function digitalNZ_install()
 	  `item_id` int(10) unsigned DEFAULT NULL,
 	  `collection_id` int(10) unsigned NOT NULL,
 	  `dnz_id` int(10) unsigned NOT NULL,
-	  `is_dublin` TINYINT(1) unsigned NOT NULL,
+	  `is_dublin` TINYINT(1) DEFAULT 0,
 	  `added` DATE NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
@@ -132,6 +132,7 @@ function digitalNZ_theme_header($request)
         echo '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
               <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
         queue_js('digitalNZ-search');
+        queue_js('JsonCallBack');
         queue_css('digitalNZ-style');
     }
 }

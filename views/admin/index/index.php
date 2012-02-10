@@ -18,8 +18,9 @@
 			if($message == 'error') echo '<div class="error">Please use the search function to search for DigitalNZ items.</div>';
 			
 			if($message == 'error_key') echo '<div class="error">Invalid Configuration. 
-											  <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
-											   to configure the "Digital New Zealand" plugin.</div>';
+								<a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
+                                                                to configure the "Digital New Zealand" plugin.
+                                                         </div>';
 		?>
 	
 	 <form action="<?php echo html_escape(uri(array('action'=>'add'))); ?>" method="post" accept-charset="utf-8">
@@ -32,7 +33,7 @@
                                     if ($this->escape($this->message) == 'error_key') {
                                         echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
                                     } else {
-                                        echo "<input type='button' value='Search' id='digitalNZ_search_button' />";
+                                        echo "<input type='button' value='Search' class='configure-button button' id='digitalNZ_search_button' />";
                                     }
 				?>
 				<a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
@@ -279,7 +280,7 @@
 						}				
 					?>
 				</select>
-				<p class="explanation">Select an existing collection or create a new one by specifying the title in the text-box.</p> 
+				<p class="explanation">Select an existing collection or create a new one by specifying the title. </p> 
 			</div>
 		</div>
 

@@ -5,8 +5,8 @@
  * @package -- ..
  */
 
-define('MAX_RESULTS_PER_PAGE', 10);
-define('DEFAULT_RESULTS_PER_PAGE', 5);
+define('DIGITALNZ_MAX_RESULTS_PER_PAGE', 10);
+define('DIGITALNZ_DEFAULT_RESULTS_PER_PAGE', 5);
 
 // add plugin hooks
 add_plugin_hook('install', 'digitalNZ_install');
@@ -55,9 +55,9 @@ function digitalNZ_install()
 	  
     $db->query($sql);
         
-    set_option('digitalnz_per_page', DEFAULT_RESULTS_PER_PAGE);
+    set_option('digitalnz_per_page', DIGITAL_DEFAULT_RESULTS_PER_PAGE);
 	
-    set_option('use_dublin_core', '1');
+    set_option('digitalnz_use_dublin_core', '1');
 }
 
 /**
@@ -82,8 +82,8 @@ function digitalNZ_uninstall()
     // Delete all options created
     delete_option('digitalnz_per_page');
     delete_option('digitalnz_api_key');
-    delete_option('use_dublin_core');
-    delete_option('terms_of_use');
+    delete_option('digitalnz_use_dublin_core');
+    delete_option('digitalnz_terms_of_use');
 }
 
 /**
@@ -95,9 +95,9 @@ function digitalNZ_config($post)
 {
     $perPage = (int)$_POST['per_page'];
     if ($perPage <= 0) {
-        $perPage = DEFAULT_RESULTS_PER_PAGE;
-    } else if ($perPage > MAX_RESULTS_PER_PAGE) {
-        $perPage = MAX_RESULTS_PER_PAGE;
+        $perPage = DIGITALNZ_DEFAULT_RESULTS_PER_PAGE;
+    } else if ($perPage > DIGITALNZ_MAX_RESULTS_PER_PAGE) {
+        $perPage = DIGITALNZ_MAX_RESULTS_PER_PAGE;
     }
 
     //Dnz Results per page option
@@ -107,10 +107,10 @@ function digitalNZ_config($post)
     set_option('digitalnz_api_key', $_POST['api_key']);
 	
     // Dublin Core or Digital New Zealand Metadata Selection 
-    set_option('use_dublin_core', $_POST['use_dublin_core']);
+    set_option('digitalnz_use_dublin_core', $_POST['digitalnz_use_dublin_core']);
 	
     // Compliance with DigitalNew Zealand Terms of Use Agreement
-    set_option('terms_of_use', $_POST['terms_of_use']);
+    set_option('digitalnz_terms_of_use', $_POST['digitalnz_terms_of_use']);
 }
  
 /**

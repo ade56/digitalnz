@@ -94,16 +94,18 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     }
 	
     /**
-     *  @param $result - DNZ Item Specified by User, $collection_id - 
+     *  Omeka Item Created based on Metadata Standard Option
+     *
+     *  @param $result DNZ Item, $collection_id 
      */
     public function _createItem($result, $collection_id)
     {
-        // JSON Web Service Request Made to DNZ */ $result
+        // JSON Web Service Request Made to DNZ 
         $dnzItem = $this->_searchForItem($result);
 		
         $importItem = new DigitalNZItem();
 			
-        // User Selection to Use Dublin-Core MetaData Standard */
+        // User Selection to Use Dublin-Core MetaData Standard 
         if (get_option("digitalnz_use_dublin_core")) {
             $item = insert_item(array('public' => true, 'collection_id' => $collection_id), array('Dublin Core' => $this->_formatDC($dnzItem))); 
             $importItem->is_dublin = 1;
@@ -119,8 +121,8 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
         $importItem->added = date("Y-m-d");
         $importItem->save();
         release_object($importItem);
-			
-        // File Content is Inserted *
+                    
+        // File Content is Inserted 
         try {
             if($dnzItem['object_url']) {
                 $url = $dnzItem['object_url'];
@@ -136,7 +138,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     }
 	
     /** 
-     *  Returns formatted Digital New Zealand JSON Item 
+     *  Returns Digital New Zealand JSON Item 
      *
      *  @param ID of DNZ item
      */
@@ -152,7 +154,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     /**
      *  DigitalNZ item formatted according to Dublin-Core standard 
      *
-     *  @param array 
+     *  @return array 
      */
     public function _formatDC($dnzItem)
     {
@@ -173,7 +175,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     /**
      * DigitalNZ MetaData standard retained. Formatted as ElementTexts Array
      *
-     * @param array
+     * @return array
      */
     public function _formatDnz($dnzItem)
     {

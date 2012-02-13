@@ -31,15 +31,63 @@ function digitalNZ_install()
     if ($db->getTable('ElementSet')->findByName($element_name)) {
         throw new Exception('An element set by the name "' . $element_name . '" already exists. You must delete that element set to install this plugin.');
     }
-	
-    //Fields Retrieved from Digital New Zealand 					
-    $dnzFields = json_decode(file_get_contents('http://api.digitalnz.org/records/v2.json?api_key=6y98irEtPSynyEbqTPfw&search_text=&num_results=1'), true);
-	
+    
     //Elements Set to Match those from DNZ Web Service
-    $elements = array();	
-    foreach ($dnzFields['results'][0] as $field_name => $field_value) {
-	$elements[] = array('name' => $field_name, 'data_type' => 'Tiny Text');
-    }	
+    $elements = array(array('name' => 'iwihapu_authority', 'data_type' => 'Tiny Text'),
+                    array('name' => 'display_date', 'data_type' => 'Tiny Text'),
+                    array('name' => 'object_copyright', 'data_type' => 'Tiny Text'),
+                    array('name' => 'marsden_code', 'data_type' => 'Tiny Text'),
+                    array('name' => 'metadata_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'is_catalog_record', 'data_type' => 'Tiny Text'),
+                    array('name' => 'preferred_term', 'data_type' => 'Tiny Text'),
+                    array('name' => 'category', 'data_type' => 'Tiny Text'),
+                    array('name' => 'related_term', 'data_type' => 'Tiny Text'),
+                    array('name' => 'place_authority', 'data_type' => 'Tiny Text'),
+                    array('name' => 'large_thumbnail_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'author', 'data_type' => 'Tiny Text'),
+                    array('name' => 'title', 'data_type' => 'Tiny Text'),
+                    array('name' => 'dnztype', 'data_type' => 'Tiny Text'),
+                    array('name' => 'no_landing_page', 'data_type' => 'Tiny Text'),
+                    array('name' => 'atl_free_download', 'data_type' => 'Tiny Text'),
+                    array('name' => 'geo_co_ords', 'data_type' => 'Tiny Text'),
+                    array('name' => 'published', 'data_type' => 'Tiny Text'),
+                    array('name' => 'content_provider', 'data_type' => 'Tiny Text'),
+                    array('name' => 'library_collection', 'data_type' => 'Tiny Text'),
+                    array('name' => 'atl_purchasable_download', 'data_type' => 'Tiny Text'),
+                    array('name' => 'atl_purchasable', 'data_type' => 'Tiny Text'),
+                    array('name' => 'collection_parent', 'data_type' => 'Tiny Text'),
+                    array('name' => 'source_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'dctype', 'data_type' => 'Tiny Text'),
+                    array('name' => 'narrower_term', 'data_type' => 'Tiny Text'),
+                    array('name' => 'imagetype_authority', 'data_type' => 'Tiny Text'),
+                    array('name' => 'heading_type', 'data_type' => 'Tiny Text'),
+                    array('name' => 'object_license', 'data_type' => 'Tiny Text'),
+                    array('name' => 'display_collection', 'data_type' => 'Tiny Text'),
+                    array('name' => 'syndication_date', 'data_type' => 'Tiny Text'),
+                    array('name' => 'date', 'data_type' => 'Tiny Text'),
+                    array('name' => 'id', 'data_type' => 'Tiny Text'),
+                    array('name' => 'additional_description', 'data_type' => 'Tiny Text'),
+                    array('name' => 'child_series', 'data_type' => 'Tiny Text'),
+                    array('name' => 'broader_term', 'data_type' => 'Tiny Text'),
+                    array('name' => 'publisher', 'data_type' => 'Tiny Text'),
+                    array('name' => 'object_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'atl_physical_viewability', 'data_type' => 'Tiny Text'),
+                    array('name' => 'collection_root', 'data_type' => 'Tiny Text'),
+                    array('name' => 'unpreferred_term', 'data_type' => 'Tiny Text'),
+                    array('name' => 'subject_authority', 'data_type' => 'Tiny Text'),
+                    array('name' => 'atl_usage_code', 'data_type' => 'Tiny Text'),
+                    array('name' => 'recordtype_authority', 'data_type' => 'Tiny Text'),
+                    array('name' => 'thumbnail_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'description', 'data_type' => 'Tiny Text'),
+                    array('name' => 'identifier', 'data_type' => 'Tiny Text'),
+                    array('name' => 'object_rights_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'peer_reviewed', 'data_type' => 'Tiny Text'),
+                    array('name' => 'display_url', 'data_type' => 'Tiny Text'),
+                    array('name' => 'thesis_level', 'data_type' => 'Tiny Text'),
+                    array('name' => 'atl_location_code', 'data_type' => 'Tiny Text'),
+                    array('name' => 'shelf_location', 'data_type' => 'Tiny Text'),
+                    array('name' => 'name_authority', 'data_type' => 'Tiny Text'),
+                    array('name' => 'record_type', 'data_type' => 'Tiny Text'));	
 	
     insert_element_set($element_name, $elements);
 	
@@ -132,7 +180,7 @@ function digitalNZ_theme_header($request)
         echo '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
               <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
         queue_js('digitalNZ-search');
-        queue_js('JsonCallBack');
+        queue_js('digitalNZ-callBack');
         queue_css('digitalNZ-style');
     }
 }

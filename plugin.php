@@ -33,15 +33,71 @@ function digitalNZ_install()
     }
 	
     //Fields Retrieved from Digital New Zealand 					
-    $dnzFields = json_decode(file_get_contents('http://api.digitalnz.org/records/v2.json?api_key=6y98irEtPSynyEbqTPfw&search_text=&num_results=1'), true);
+    $dnzFields = array (
+        'iwihapu_authority' => 'iwihapu_authority',
+        'display_date' => 'display_date',
+        'object_copyright' => 'object_copyright',
+        'marsden_code' => 'marsden_code',
+        'metadata_url' => 'metadata_url',
+        'is_catalog_record' => 'is_catalog_record',
+        'preferred_term' => 'preferred_term',
+        'category' => 'category',
+        'related_term' => 'related_term',
+        'place_authority' => 'place_authority',
+        'large_thumbnail_url' => 'large_thumbnail_url',
+        'author' => 'author',
+        'title' => 'title',
+        'dnztype' => 'dnztype',
+        'no_landing_page' => 'no_landing_page',
+        'atl_free_download' => 'atl_free_download',
+        'geo_co_ords' => 'geo_co_ords',
+        'published' => 'published',
+        'content_provider' => 'content_provider',
+        'library_collection' => 'library_collection',
+        'atl_purchasable_download' => 'atl_purchasable_download',
+        'atl_purchasable' => 'atl_purchasable',
+        'collection_parent' => 'collection_parent',
+        'source_url' => 'source_url',
+        'dctype' => 'dctype',
+        'narrower_term' => 'narrower_term',
+        'imagetype_authority' => 'imagetype_authority',
+        'heading_type' => 'heading_type',
+        'object_license' => 'object_license',
+        'display_collection' => 'display_collection',
+        'syndication_date' => 'syndication_date', 
+        'date' => 'date',
+        'id' => 'id',
+        'additional_description' => 'additional_description',
+        'child_series' => 'child_series',
+        'broader_term' => 'broader_term',
+        'publisher' => 'publisher',
+        'object_url' => 'object_url',
+        'atl_physical_viewability' => 'atl_physical_viewability',
+        'collection_root' => 'collection_root',
+        'unpreferred_term' => 'unpreferred_term',
+        'subject_authority' => 'subject_authority',
+        'atl_usage_code' => 'atl_usage_code',
+        'recordtype_authority' => 'recordtype_authority',
+        'thumbnail_url' => 'thumbnail_url',
+        'description' => 'description',
+        'identifier' => 'identifier',
+        'object_rights_url' => 'object_rights_url',
+        'peer_reviewed' => 'peer_reviewed',
+        'display_url' => 'display_url',
+        'thesis_level' => 'thesis_level',
+        'atl_location_code' => 'atl_location_code',
+        'shelf_location' => 'shelf_location',
+        'name_authority' => 'name_authority',
+        'record_type' => 'record_type'
+    );
 	
     //Elements Set to Match those from DNZ Web Service
-    $elements = array();	
-    foreach ($dnzFields['results'][0] as $field_name => $field_value) {
-	$elements[] = array('name' => $field_name, 'data_type' => 'Tiny Text');
-    }	
-	
-    insert_element_set($element_name, $elements);
+    $elementSetMetadata = $element_name;
+    $elements = array();
+    foreach ($dnzFields as $dnzFieldName => $fieldMap) {
+        $elements[] = array('name' => $dnzFieldName, 'data_type' => 'Tiny Text');
+    }
+    insert_element_set($elementSetMetadata, $elements);
 	
     $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_items` (
 	  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

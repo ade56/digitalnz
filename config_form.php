@@ -2,8 +2,7 @@
     <label for="per_page">Number of Results Per Page:</label>
     <div class="inputs">
         <input type="text" class="textinput" name="per_page" size="4" value="<?php echo get_option('digitalnz_per_page'); ?>" id="per_page" />
-        <p class="explanation">The number of results displayed per page (max 10).</p>
-        <p class="explanation" style="color:red">Warning: A higher number of results per page may result in a slower response rate.</p> 
+        <p class="explanation">The number of results displayed per page (max 10).</p> 
     </div>
 </div>
 
@@ -21,7 +20,7 @@
     <div class="inputs">
         <?php echo __v()->formCheckbox('digitalnz_use_dublin_core', true, array('checked'=>(boolean)get_option('digitalnz_use_dublin_core'))); ?>
         Use Dublin Core Metadata Element Set.
-        <p class="explanation" style="color:red">Warning: Converting to Dublin Core metadata standard may result in lost information.</p>
+        <p class="explanation">Leave this box unticked if you wish to use DigitalNZ metadata standard. Converting to Dublin Core metadata standard may result in lost information.</p>
     </div>
 </div>
 

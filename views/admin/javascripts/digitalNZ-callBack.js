@@ -11,13 +11,15 @@ function jsonpcallback(data)
         /** Page Navigation Number in Top Right of Search Pane */
         var end_number = page_number + parseInt($('#num_results').attr('value'));
             
-        if (end_number > result_count) end_number = result_count; 
+        if(end_number > result_count) end_number = result_count;		
 
         /** */
         $("#digitalNZ_search_pane").append("<input type='button' class='digitalNZ_sel_button' id='digitalNZ_select_all' onclick='selectAllItems()' value='Select All' />" +
                                            "<h2 style='text-align:right;'>" + (page_number + 1) + "-" + end_number + " of " + result_count + " results</h2>");
         /** */
         appendResultItems(results);	
+		
+        if(parseInt($('#num_results').attr('value')) >= result_count) $('.digitalNZ_nav_button').hide();
         
         total_results = result_count;
     } else {

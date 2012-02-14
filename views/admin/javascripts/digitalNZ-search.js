@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	page_number = 0;
 	total_results = 0;
+    previous_search_text = '';
 	
 	$('.digitalNZ_nav_button').hide();
         
@@ -15,6 +16,12 @@ $(document).ready(function() {
                             
             /** User Specified Search Filters are appended to search text string */
             var search_text = getFilterContent();
+			
+            /** Check whether to apply a new search or not */
+            if(previous_search_text != search_text) {
+                page_number = 0;
+                previous_search_text = search_text;
+            }
 			
             /** URL Request to Digital New Zealand */
             var url = 'http://api.digitalnz.org/records/v2.json'

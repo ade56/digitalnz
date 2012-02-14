@@ -111,7 +111,7 @@ function digitalNZ_install()
 	  
     $db->query($sql);
         
-    set_option('digitalnz_per_page', DIGITAL_DEFAULT_RESULTS_PER_PAGE);
+    set_option('digitalnz_per_page', DIGITALNZ_DEFAULT_RESULTS_PER_PAGE);
 	
     set_option('digitalnz_use_dublin_core', '1');
 }

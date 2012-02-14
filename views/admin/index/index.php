@@ -13,7 +13,7 @@
         // Display success message or error message
         $message = $this->escape($this->message);
         if($message == 'success') echo '<div class="success">The item was successfully added!</div>';
-        if($message == 'error') echo '<div class="error">Please use the search function to search for DigitalNZ items.</div>';	
+        if($message == 'error') echo '<div class="error">Please indicate which items you would like to import by selecting the items checkbox</div>';	
         if($message == 'error_key') echo '<div class="error">Invalid Configuration. 
                                           <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
                                           to configure the "Digital New Zealand" plugin.</div>';
@@ -26,12 +26,15 @@
                 <?php echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput')); ?>
                 <?php
                     if ($this->escape($this->message) == 'error_key') {
-                         echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' />";
+                         echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' class='configure-button button'/>";
                     } else {
                         echo "<input type='button' value='Search' id='digitalNZ_search_button' class='configure-button button'/>";
                     }
+                
+                $filePath = 'file://' . PLUGIN_DIR . DIRECTORY_SEPARATOR . 'DigitalNZ' . DIRECTORY_SEPARATOR . 'Images' . DIRECTORY_SEPARATOR . 'DNZ_Logo.jpg';
+                echo '<a href="http://www.digitalnz.org" target="_blank"><img src="' . $filePath . '" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>';
+                
                 ?>
-                <a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
                 <p class="explanation">Input text above and select 'search'.</p>  		
             </div>
         </div>
@@ -41,7 +44,6 @@
             <div class="inputs">
                 <select class='digitalNZ_search_filter' id='digitalNZ_format_filter'>
                     <option value="All">All</option>
-                    <option value="Text">Text</option>
                     <option value="Images">Images</option>
                     <option value="Audio">Audio</option>
                     <option value="Videos">Videos</option>

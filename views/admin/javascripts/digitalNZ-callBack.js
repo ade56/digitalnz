@@ -61,7 +61,7 @@ function getCopyRightIcon(copyright)
         color_code = 'tag_orange.png'; 
     } else if(copyright == "All rights reserved") { 
         color_code = 'tag_red.png'; 
-    } else if(value.object_copyright == "Crown copyright") { 
+    } else if(copyright.object_copyright == "Crown copyright") { 
         color_code = 'tag_gray.png'; 
     } else { 
         color_code = 'tag_green.png'; 

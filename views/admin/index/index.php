@@ -32,9 +32,10 @@
                     }
                 
                 $filePath = 'file://' . PLUGIN_DIR . DIRECTORY_SEPARATOR . 'DigitalNZ' . DIRECTORY_SEPARATOR . 'Images' . DIRECTORY_SEPARATOR . 'DNZ_Logo.jpg';
-                echo '<a href="http://www.digitalnz.org" target="_blank"><img src="' . $filePath . '" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>';
+                echo '';
                 
                 ?>
+                <a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
                 <p class="explanation">Input text above and select 'search'.</p>  		
             </div>
         </div>

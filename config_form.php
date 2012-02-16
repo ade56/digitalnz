@@ -25,13 +25,13 @@
 </div>
 
 <div class="field">
-    <label for="">DigitalNZ Terms of Service: </label>
+    <label for="terms_of_service">DigitalNZ Terms of Service:</label>
     <div class="inputs">
-        <div style='float:left;'>
+        <div style='float:left'>
             <?php echo __v()->formCheckbox('digitalnz_terms_of_use', true, array('checked'=>(boolean)get_option('digitalnz_terms_of_use'))); ?>
             I accept Digital New Zealand's <a href="http://www.digitalnz.org/terms-of-use" target="_blank">Terms of Use Agreement</a>	
         </div>
-        <div style='text-align:right;'>
+        <div style='text-align:right'>
             <a href="/omeka/admin/digital-nz/index/refresh/" class="configure-button button">Update</a>
             <p class="explanation">In order to use DigitalNZ search services, you must first agree to the Terms.</p>
             <p class="explanation" style="color:red">Note: When imported items are older than 30 days click 'Update' to refresh the content.</p> 

@@ -13,7 +13,7 @@
         // Display success message or error message
         $message = $this->escape($this->message);
         if($message == 'success') echo '<div class="success">The item was successfully added!</div>';
-        if($message == 'error') echo '<div class="error">Please indicate which items you would like to import by selecting the items checkbox</div>';	
+        if($message == 'error') echo '<div class="error">No item was selected to import!</div>';	
         if($message == 'error_key') echo '<div class="error">Invalid Configuration. 
                                           <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
                                           to configure the "Digital New Zealand" plugin.</div>';
@@ -23,19 +23,15 @@
         <div class="field">
             <label for="digitalNZ_search_text">Text Input</label>   
             <div class="inputs">         
-                <?php echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput')); ?>
-                <?php
+                <?php 
+                    echo $this->formText('digitalNZ_search_text', null, array('class' => 'textinput'));
                     if ($this->escape($this->message) == 'error_key') {
-                         echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' class='configure-button button'/>";
+                        echo "<input type='button' value='Search' id='digitalNZ_search_button' disabled='disabled' class='configure-button button'/>";
                     } else {
                         echo "<input type='button' value='Search' id='digitalNZ_search_button' class='configure-button button'/>";
-                    }
-                
-                $filePath = 'file://' . PLUGIN_DIR . DIRECTORY_SEPARATOR . 'DigitalNZ' . DIRECTORY_SEPARATOR . 'Images' . DIRECTORY_SEPARATOR . 'DNZ_Logo.jpg';
-                echo '';
-                
+                    } 
                 ?>
-                <a href="http://www.digitalnz.org" target="_blank"><img src="/./omeka/plugins/DigitalNZ/Images/DNZ_Logo.jpg" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
+                <a href="http://www.digitalnz.org" target="_blank"><img src="<?php echo WEB_PLUGIN.DIRECTORY_SEPARATOR.'DigitalNZ'.DIRECTORY_SEPARATOR.'Images'.DIRECTORY_SEPARATOR.'DNZ_Logo.jpg'; ?>" alt="DNZ logo" title="DigitalNZ" style="float:right" /></a>
                 <p class="explanation">Input text above and select 'search'.</p>  		
             </div>
         </div>
@@ -269,7 +265,7 @@
                 <input type="radio" name="digitalNZ_collection" value="no_collection" checked onclick="new_collection.style.display='none';digitalNZ_collection_select.style.display='none'" />No Collection&nbsp&nbsp&nbsp
                 <input type="radio" name="digitalNZ_collection" value="new_collection" onclick="new_collection.style.display='block';digitalNZ_collection_select.style.display='none'" />Create a new collection&nbsp&nbsp&nbsp
                 <input type="radio" name="digitalNZ_collection" value="exist_collection" onclick="digitalNZ_collection_select.style.display='block';new_collection.style.display='none'" />Add to an existing collection
-                <input type="text" class="textinput" name ="new_collection" id="new_collection" size="30" style="display:none;color:#808080" value="Please input a name" onfocus="if(this.value=='Please input a name')this.value=''" onblur="if(this.value=='')this.value='Please input a name'" />
+                <input type="text" class="textinput" name ="new_collection" id="new_collection" style="display:none;color:#808080" value="Please input a name" onfocus="if(this.value=='Please input a name')this.value=''" onblur="if(this.value=='')this.value='Please input a name'" />
                 <select class='digitalNZ_search_filter' name='digitalNZ_collection_select' id='digitalNZ_collection_select' style="display:none">
                     <option value="">Please select a collection</option>
                     <?php
@@ -295,6 +291,7 @@
 
         <input type='hidden' name='num_results' id='num_results' value="<?php echo get_option('digitalnz_per_page'); ?>" />
         <input type='hidden' name='api_key' id='api_key' value="<?php echo get_option('digitalnz_api_key'); ?>" />
+        <input type='hidden' name='image_src' id='image_src' value="<?php echo WEB_PLUGIN; ?>" />
     </form>
 </div>
 

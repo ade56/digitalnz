@@ -37,6 +37,8 @@ function appendResultItems(results)
         var color_code = getCopyRightIcon(value.object_copyright);
                     
         if(value.identifier == '') { value.identifier = value.display_url }
+		
+        var src = $('#image_src').attr('value') + '/DigitalNZ/Images/' + color_code;
                             
         var html = "<div class='digitalNZ_search_item'>" +
                             "<input type='checkbox' class='checkbox' name='results_check_box[]' value='" + value.id + "'/>" +
@@ -45,7 +47,7 @@ function appendResultItems(results)
                                 "<h2><a href='" + value.identifier + "' target='_blank'>" + value.title + "</a></h2>" +
                                 "<a>" + value.description + "</a>" +
                             "</div>" + 
-                            "<div class='usage_right_icon'><img src='/./omeka/plugins/DigitalNZ/Images/" + color_code +"' />" + "<span>" + value.object_copyright +"</span></div>" + 
+                            "<div class='usage_right_icon'><img src='" + src +"' />" + "<span>" + value.object_copyright +"</span></div>" + 
                         "</div>"; 
                     
         $("#digitalNZ_search_pane").append(html);			
@@ -63,7 +65,7 @@ function getCopyRightIcon(copyright)
         color_code = 'tag_orange.png'; 
     } else if(copyright == "All rights reserved") { 
         color_code = 'tag_red.png'; 
-    } else if(copyright.object_copyright == "Crown copyright") { 
+    } else if(copyright == "Crown copyright") { 
         color_code = 'tag_gray.png'; 
     } else { 
         color_code = 'tag_green.png'; 

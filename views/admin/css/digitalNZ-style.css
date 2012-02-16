@@ -15,7 +15,6 @@
     width: 560px;
 }
 
-/* Over-ride Omeka Blue Highlight Style */
 .result_title_description > a:hover
 {
     color: black;

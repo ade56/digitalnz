@@ -1,10 +1,4 @@
 <?php 
-/**
- * @copyright -- ..
- * @license -- ..
- * @package -- ..
- */
-
 define('DIGITALNZ_MAX_RESULTS_PER_PAGE', 10);
 define('DIGITALNZ_DEFAULT_RESULTS_PER_PAGE', 5);
 
@@ -98,7 +92,8 @@ function digitalNZ_install()
         $elements[] = array('name' => $dnzFieldName, 'data_type' => 'Tiny Text');
     }
     insert_element_set($elementSetMetadata, $elements);
-	
+    
+    //Items table created to keep track of items imported via plugin
     $sql = "CREATE TABLE IF NOT EXISTS `{$db->prefix}digital_nz_items` (
 	  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	  `item_id` int(10) unsigned DEFAULT NULL,
@@ -110,7 +105,8 @@ function digitalNZ_install()
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 	  
     $db->query($sql);
-        
+    
+    //Default Options Specified
     set_option('digitalnz_per_page', DIGITALNZ_DEFAULT_RESULTS_PER_PAGE);
 	
     set_option('digitalnz_use_dublin_core', '1');

@@ -5,6 +5,7 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
 {	
     public function indexAction() 
     {
+        // Error or Success Message Determined and Assigned to View
         $message = $this->_getParam('message');
 		
 	if (!get_option('digitalnz_api_key') || !get_option('digitalnz_terms_of_use')) {
@@ -31,11 +32,12 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
     
     public function addAction()
     {
-        $results_check = $_POST['results_check_box'];
+        $items_check = $_POST['results_check_box'];
         $collection = $_POST['digitalNZ_collection'];
+        $collection_name = $_POST['new_collection'];
 	
         // Asserts Item was Checked and Redirects is In-Valid 
-        if (!$results_check[0]) {
+        if (!$items_check[0]) {
             $this->_helper->redirector->goto('index', 'index', null, array('message' => 'error'));
         }
 		
@@ -44,16 +46,16 @@ class DigitalNZ_IndexController extends Omeka_Controller_Action
         // New Collection Created and Retrieved from DB so Items can be Added Based on ID 
         if ($collection == "exist_collection" && $_POST['digitalNZ_collection_select'] != 'Please select a collection') {
             $collection_id = $_POST['digitalNZ_collection_select'];		
-        } else if ($collection == "new_collection" && $_POST['new_collection']!= 'Please input a name') {
-            $collection = insert_collection(array('name'=> $_POST['new_collection'], 'public'=>true, 'description'=>' '));				
+        } else if ($collection == "new_collection" && $collection_name!= 'Please input a name') {
+            $collection = insert_collection(array('name'=> $collection_name, 'public'=>true, 'description'=>' '));				
             $collectionTable = get_db()->getTable('Collection');
             $select = $collectionTable->getSelect();
-            $select->where('name = ?', $_POST['new_collection']);
+            $select->where('name = ?', $collection_name);
             $collection_id = $collectionTable->fetchObject($select)->id;		
         }		
 				
         // Each Item Selected By the User is Comitted to an Omeka Item 
-        foreach ($results_check as $result) {
+        foreach ($items_check as $result) {
             $this->_createItem($result, $collection_id);
         }
 		

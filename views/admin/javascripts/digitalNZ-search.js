@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	page_number = 0;
 	total_results = 0;
-    previous_search_text = '';
+        previous_search_text = '';
 	
 	$('.digitalNZ_nav_button').hide();
         

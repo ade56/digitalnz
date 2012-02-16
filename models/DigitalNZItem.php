@@ -1,7 +1,8 @@
 <?php
+
 /**
- *
- **/
+ * Represents a digitalnz_import_items record object.
+ */
 class DigitalNZItem extends Omeka_Record
 {	
 	public $id;
@@ -12,7 +13,7 @@ class DigitalNZItem extends Omeka_Record
 	public $added;
         
         /**
-         *
+         * Items added date is updated following refresh action
          */
         public function UpdateDateAdded()
         {

@@ -15,7 +15,7 @@
         if($message == 'success') echo '<div class="success">The item was successfully added!</div>';
         if($message == 'error') echo '<div class="error">No item was selected to import!</div>';	
         if($message == 'error_key') echo '<div class="error">Invalid Configuration. 
-                                          <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
+                                          <a href="'.WEB_ROOT.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'config?name=DigitalNZ'.'">Click here</a>
                                           to configure the "Digital New Zealand" plugin.</div>';
     ?>
 

@@ -35,5 +35,5 @@
 		</tbody>
 	</table>
 	
-	<p> <a href='/./omeka/admin/items'> Return to Items Administration</a></p>
+	<p> <a href="<?php echo WEB_ROOT.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'items'; ?>"> Return to Items Administration</a></p>
 </div>

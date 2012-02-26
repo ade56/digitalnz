@@ -12,7 +12,7 @@
     <?php
         // Display success message or error message
         $message = $this->escape($this->message);
-        if($message == 'success') echo '<div class="success">The item was successfully added!</div>';
+        if($message == 'success') echo '<div class="success">Item(s) successfully added!</div>';
         if($message == 'error') echo '<div class="error">No item was selected to import!</div>';	
         if($message == 'error_key') echo '<div class="error">Invalid Configuration. 
                                           <a href="/./omeka/admin/plugins/config?name=DigitalNZ">Click here</a>
